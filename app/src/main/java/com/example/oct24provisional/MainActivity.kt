@@ -77,7 +77,7 @@ fun HomeScreen() {
         // Display the image
         Image(
             painter = imagePainter,
-            contentDescription = "Blackjack Image",
+            contentDescription = "Dice Game Image",
           //  modifier = Modifier.size(200.dp) // Adjust the size as needed
         )
         // Add more content, buttons, or text below the image if desired
