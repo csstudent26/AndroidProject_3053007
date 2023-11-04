@@ -1,6 +1,4 @@
 <resources>
     <string name="app_name">OCT24Provisional</string>
     <string name="title_activity_first">First</string>
-    <string name="title_activity_options">Options</string>
-    <string name="title_activity_play">Play</string>
 </resources>
