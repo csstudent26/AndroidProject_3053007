@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">OCT24Provisional</string>
+    <string name="title_activity_first">First</string>
 </resources>

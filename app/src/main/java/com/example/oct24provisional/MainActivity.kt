@@ -1,5 +1,8 @@
 package com.example.oct24provisional
 
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorManager
 import android.os.Bundle
 
 import androidx.navigation.NavController
@@ -23,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,17 +34,25 @@ import androidx.compose.ui.unit.dp
 import com.example.oct24provisional.ui.theme.OCT24ProvisionalTheme
 
 
+
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+           /* val context = LocalContext.current
+            val sensorManager: SensorManager =
+                context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+            val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
+            println(deviceSensors)
+            print("Hello T")*/
             OCT24ProvisionalTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                  //  Greeting("Android")
+                   // Greeting("Android")
                     HomeScreen()
                     
                 }
@@ -51,6 +63,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
+   /* val context = LocalContext.current
+    val sensorManager: SensorManager =
+        context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
+    println(deviceSensors)*/
     Text(
         text = "Hello $name!",
         modifier = modifier
@@ -68,7 +85,6 @@ fun GreetingPreview() {
 @Composable
 fun HomeScreen() {
     val imagePainter: Painter = painterResource(id = R.drawable.dicegame)
-
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
