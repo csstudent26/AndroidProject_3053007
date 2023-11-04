@@ -40,12 +40,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-           /* val context = LocalContext.current
-            val sensorManager: SensorManager =
-                context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-            val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
-            println(deviceSensors)
-            print("Hello T")*/
+
             OCT24ProvisionalTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
