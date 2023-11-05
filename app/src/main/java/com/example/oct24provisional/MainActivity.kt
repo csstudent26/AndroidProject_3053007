@@ -1,6 +1,7 @@
 package com.example.oct24provisional
 
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Bundle
@@ -17,8 +18,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,6 +34,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.Options
 
 import com.example.oct24provisional.ui.theme.OCT24ProvisionalTheme
 
@@ -47,9 +52,28 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                    // Greeting("Android")
-                    HomeScreen()
-                    
+                         //   HomeScreen()
+                        Spacer(modifier = Modifier.height(16.dp))
+                        // Button to navigate to Options
+                        Button(
+                            onClick = {
+                                // Create an Intent to navigate to Options
+                                val intent = Intent(this@MainActivity, Options::class.java)
+                                startActivity(intent)
+                            }
+                        ) {
+                            Text("Go to Options")
+                        }
+                           HomeScreen()
+
+                    }
+
                 }
             }
         }
@@ -78,7 +102,7 @@ fun GreetingPreview() {
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen2() {
     val imagePainter: Painter = painterResource(id = R.drawable.dicegame)
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -93,6 +117,16 @@ fun HomeScreen() {
         )
         // Add more content, buttons, or text below the image if desired
     }
+}
+@Composable
+fun HomeScreen() {
+    val imagePainter: Painter = painterResource(id = R.drawable.dicegame)
+
+    Image(
+        painter = imagePainter,
+        contentDescription = "Dice Game Image",
+        modifier = Modifier.fillMaxSize()
+    )
 }
 
 
