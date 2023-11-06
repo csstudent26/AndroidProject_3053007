@@ -34,7 +34,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.Options
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 
 import com.example.oct24provisional.ui.theme.OCT24ProvisionalTheme
 
@@ -57,9 +60,20 @@ class MainActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Top,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                   // Greeting("Android")
-                         //   HomeScreen()
+                        // Title
+                        Text(
+                            text = "Welcome to the Lucky Dice Game",
+                            style = TextStyle(
+                                fontSize = 24.sp, // Adjust the font size as needed
+                                fontWeight = FontWeight.Bold
+                            ),
+                            modifier = Modifier.padding(16.dp)
+                        )
+
+                        // Add Spacer if needed
                         Spacer(modifier = Modifier.height(16.dp))
+
+
                         // Button to navigate to Options
                         Button(
                             onClick = {
