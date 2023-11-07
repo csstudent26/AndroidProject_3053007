@@ -11,6 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.ui.theme.OCT24ProvisionalTheme
+import androidx.compose.foundation.layout.fillMaxSize
+
+
+import androidx.compose.ui.viewinterop.AndroidView
+import android.webkit.WebView
+import android.webkit.WebViewClient
 
 class Play : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,13 +27,7 @@ class Play : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting3("Android")
-                }
-            }
-        }
-    }
-}
+                )
 
 @Composable
 fun Greeting3(name: String, modifier: Modifier = Modifier) {
@@ -43,4 +43,21 @@ fun GreetingPreview3() {
     OCT24ProvisionalTheme {
         Greeting3("Android")
     }
+}
+@Composable
+fun PlayScreen() {
+    val gifUrl = "https://media.tenor.com/5En-9o6PM6UAAAAC/dice.gif" // Replace with your GIF URL
+
+    AndroidView(
+
+        modifier = Modifier.fillMaxSize(),
+        factory = { context ->
+            WebView(context).apply {
+                loadUrl(gifUrl)
+
+                settings.javaScriptEnabled = true
+                webViewClient = WebViewClient()
+            }
+        }
+    )
 }
