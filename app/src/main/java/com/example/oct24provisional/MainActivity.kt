@@ -35,9 +35,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.Options
+
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import com.Options
+import com.Play
+
 
 import com.example.oct24provisional.ui.theme.OCT24ProvisionalTheme
 
@@ -89,7 +92,7 @@ class MainActivity : ComponentActivity() {
                         Button(
                             onClick = {
                                 // Create an Intent to navigate to Options
-                                val intent = Intent(this@MainActivity, Options::class.java)
+                                val intent = Intent(this@MainActivity,Play::class.java)
                                 startActivity(intent)
                             }
                         ) {

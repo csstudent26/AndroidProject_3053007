@@ -13,6 +13,16 @@
         android:theme="@style/Theme.OCT24Provisional"
         tools:targetApi="31">
         <activity
+            android:name="com.Options"
+            android:exported="false"
+            android:label="@string/title_activity_options"
+            android:theme="@style/Theme.OCT24Provisional" />
+        <activity
+            android:name="com.Play"
+            android:exported="false"
+            android:label="@string/title_activity_play"
+            android:theme="@style/Theme.OCT24Provisional" />
+        <activity
             android:name=".First"
             android:exported="false"
             android:label="@string/title_activity_first"
