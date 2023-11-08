@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.sp
 import com.ui.theme.OCT24ProvisionalTheme
 
 
+import androidx.compose.material3.Checkbox
+import com.example.oct24provisional.FindSensors
 
 
 class Options : ComponentActivity() {
@@ -99,7 +101,18 @@ class Options : ComponentActivity() {
                         )
 
                         // Include options for users to configure game settings, such as sound, visuals, difficulty, and theme.
-                        // You can use buttons, switches, or other Composable elements to allow users to customize their gaming experience.
+                        // Include options for users to configure game settings
+
+
+                            FindSensors()
+
+
+
+                        // Visual and Sound Settings
+                        /* Add options for themes, music, sound effects, etc. */
+
+                        // Advanced Settings
+                        /* Add advanced options if needed */
                     }
                 }
             }

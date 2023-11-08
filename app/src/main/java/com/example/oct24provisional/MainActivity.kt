@@ -45,6 +45,8 @@ import com.Play
 import com.example.oct24provisional.ui.theme.OCT24ProvisionalTheme
 
 
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 
 
 class MainActivity : ComponentActivity() {
@@ -157,8 +159,21 @@ fun HomeScreen() {
     )
 }
 
+@Composable
+fun FindSensors() {
+
+    val context = LocalContext.current
+    val sensorManager: SensorManager =
+        context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
 
 
+    LazyColumn {
+        items<Sensor>(deviceSensors) { sensor ->
+            Text(text = sensor.name)
+        }
+    }
+}
 
 
 
