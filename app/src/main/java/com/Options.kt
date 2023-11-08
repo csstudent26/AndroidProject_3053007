@@ -1,13 +1,18 @@
 package com
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,11 +23,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ui.theme.OCT24ProvisionalTheme
-
-
-import androidx.compose.material3.Checkbox
 import com.example.oct24provisional.FindSensors
+import com.ui.theme.OCT24ProvisionalTheme
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 
 
 class Options : ComponentActivity() {
@@ -105,6 +109,7 @@ class Options : ComponentActivity() {
 
 
                             FindSensors()
+                            RadioGroup()
 
 
 
@@ -133,5 +138,32 @@ fun Greeting4(name: String, modifier: Modifier = Modifier) {
 fun GreetingPreview4() {
     OCT24ProvisionalTheme {
         Greeting4("Android")
+    }
+}
+
+@Composable
+fun RadioGroup() {
+    val levels = listOf("Easy", "Medium", "Hard")
+    var selectedLevel = levels[0]
+
+    Column {
+        levels.forEach { level ->
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .selectable(
+                        selected = (level == selectedLevel),
+                        onClick = { selectedLevel = level }
+                    )
+                    .padding(horizontal = 16.dp)
+            ) {
+                RadioButton(
+                    selected = (level == selectedLevel),
+                    onClick = { selectedLevel = level },
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+
+            }
+        }
     }
 }
