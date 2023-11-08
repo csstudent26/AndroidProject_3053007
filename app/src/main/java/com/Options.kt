@@ -142,7 +142,7 @@ fun GreetingPreview4() {
 }
 
 @Composable
-fun RadioGroup() {
+fun RadioGroup2() {
     val levels = listOf("Easy", "Medium", "Hard")
     var selectedLevel = levels[0]
 
@@ -163,6 +163,35 @@ fun RadioGroup() {
                     modifier = Modifier.padding(start = 16.dp)
                 )
 
+            }
+        }
+    }
+}
+@Composable
+fun RadioGroup() {
+    val levels = listOf("Beginner", "Intermediate", "Expert")
+    var selectedLevel = levels[0]
+
+    Column {
+        levels.forEach { level ->
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .selectable(
+                        selected = (level == selectedLevel),
+                        onClick = { selectedLevel = level }
+                    )
+                    .padding(horizontal = 16.dp)
+            ) {
+                RadioButton(
+                    selected = (level == selectedLevel),
+                    onClick = { selectedLevel = level },
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+                Text(
+                    text = level,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
             }
         }
     }
