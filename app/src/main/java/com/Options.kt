@@ -16,6 +16,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -27,6 +28,7 @@ import com.example.oct24provisional.FindSensors
 import com.ui.theme.OCT24ProvisionalTheme
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 
 class Options : ComponentActivity() {
@@ -108,7 +110,7 @@ class Options : ComponentActivity() {
                         // Include options for users to configure game settings
 
 
-                            FindSensors()
+                          //  FindSensors()
                             RadioGroup()
 
 
@@ -127,6 +129,7 @@ class Options : ComponentActivity() {
 
 @Composable
 fun Greeting4(name: String, modifier: Modifier = Modifier) {
+
     Text(
         text = "Hello $name!",
         modifier = modifier
@@ -196,3 +199,46 @@ fun RadioGroup() {
         }
     }
 }
+
+@Composable
+fun SoundSettingsContent() {
+    var soundEnabled by remember { mutableStateOf(true) }
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        item {
+            Text(
+                text = "Sound Settings",
+                style = MaterialTheme.typography.h5,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+        }
+
+        item {
+            Switch(
+                checked = soundEnabled,
+                onCheckedChange = { newValue -> soundEnabled = newValue },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            )
+            Text(
+                text = "Enable Sound",
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SoundSettingsPreview() {
+    FeatherAndroidTasksTheme {
+        SoundSettingsContent()
+    }
+}
+
