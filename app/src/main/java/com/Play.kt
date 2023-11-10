@@ -1,4 +1,8 @@
 package com
+import android.widget.Toast
+
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 
 import androidx.navigation.NavController
 import android.os.Bundle
@@ -54,11 +58,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.internal.NoOpContinuation.context
+import kotlin.coroutines.jvm.internal.CompletedContinuation.context
+
 class Play : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,7 +143,10 @@ class Play : ComponentActivity() {
             // Button to start the game and navigate to the DieResultScreen
             Button(
                 onClick = {
-                    // Start the game and navigate to the DieResultScreen
+
+
+
+
 
                 },
                 modifier = Modifier
