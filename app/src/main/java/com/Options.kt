@@ -120,7 +120,8 @@ class Options : ComponentActivity() {
 
 
                           //  FindSensors()
-                            RadioGroup()
+                          //  RadioGroup()
+                            CustomRadioGroup()
                        //     SoundSettingsContent()
                             SoundPlayer()
 
@@ -324,4 +325,35 @@ fun SoundSettingsContent() {
 
 }
 
+@Composable
+fun CustomRadioGroup(modifier: Modifier = Modifier) {
+    val levels = listOf("Beginner", "Intermediate", "Expert")
+    var selectedLevel by remember { mutableStateOf(levels[0]) }
+
+    Column(
+        modifier = modifier
+    ) {
+        levels.forEach { level ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .selectable(
+                        selected = (level == selectedLevel),
+                        onClick = { selectedLevel = level }
+                    )
+                    .padding(horizontal = 16.dp)
+            ) {
+                RadioButton(
+                    selected = (level == selectedLevel),
+                    onClick = { selectedLevel = level },
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+                Text(
+                    text = level,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            }
+        }
+    }
+}
 
