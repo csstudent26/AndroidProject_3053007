@@ -62,13 +62,20 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Checkbox
+import androidx.compose.foundation.layout.Box
 
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.saveable.rememberSaveable
 
+import androidx.compose.foundation.layout.Box
+
+
 
 import androidx.compose.ui.unit.dp // Import for the padding modifier
+
+import androidx.compose.foundation.layout.fillMaxWidth
+
 
 
 class Play : ComponentActivity() {
@@ -95,15 +102,34 @@ class Play : ComponentActivity() {
                             text = "Ready To Play ?", style = TextStyle(
                                 fontSize = 24.sp, fontWeight = FontWeight.Bold
                             ), modifier = Modifier.padding(16.dp)
-                        )
-                        PlayScreen()
+                        );
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                        ) {
+                            PlayScreen(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f)
+                            )
 
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            UserNameSelection(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f)
+                            )
+                        }
+
+
+                    }
                     }
                 }
             }
         }
     }
-
 
 @Composable
 fun Greeting3(name: String, modifier: Modifier = Modifier) {
@@ -121,7 +147,9 @@ fun GreetingPreview3() {
 }
 
 @Composable
-fun PlayScreen() {
+fun PlayScreen(modifier: Modifier = Modifier
+    .fillMaxWidth())
+     {
     val gifUrl =
         "https://media.tenor.com/5En-9o6PM6UAAAAC/dice.gif" // Replace with your GIF URL
     Box(
@@ -186,10 +214,10 @@ fun DieResultScreen() {
     }
   }
  }
-}
 
 
-var isChecked =  mutableStateOf(false) }
+
+var isChecked =  mutableStateOf(false)
 
 @Composable
 fun CheckBox(isChecked: Boolean, onCheckedChange: (Boolean) -> Unit) {
@@ -197,4 +225,37 @@ fun CheckBox(isChecked: Boolean, onCheckedChange: (Boolean) -> Unit) {
         checked = isChecked,
         onCheckedChange = onCheckedChange
     )
+}
+@Composable
+fun UserNameSelection(modifier: Modifier = Modifier
+    .fillMaxWidth()
+
+    ) {
+    // List of available usernames
+    val userNames = listOf("Alice", "Bob", "Charlie")
+
+    // State to track selected usernames
+    var selectedUserNames by remember { mutableStateOf(setOf<String>()) }
+
+    // Display the list of usernames with checkboxes
+    Column {
+        userNames.forEach { userName ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                CheckBox(
+                    isChecked = selectedUserNames.contains(userName),
+                    onCheckedChange = { isChecked ->
+                        if (isChecked) {
+                            selectedUserNames = selectedUserNames + userName
+                        } else {
+                            selectedUserNames = selectedUserNames - userName
+                        }
+                    }
+                )
+                Text(text = userName, modifier = Modifier.padding(16.dp))
+            }
+        }
+    }
+
+
+
 }
