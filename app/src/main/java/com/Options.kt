@@ -19,7 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,11 +33,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Switch
 import android.media.MediaPlayer
+import androidx.compose.foundation.background
 import androidx.compose.material3.Button
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.oct24provisional.R
 
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 
 
 class Options : ComponentActivity() {
@@ -121,7 +124,7 @@ class Options : ComponentActivity() {
 
                           //  FindSensors()
                           //  RadioGroup()
-                            CustomRadioGroup()
+                            CustomRadioGroup(modifier = Modifier.background(Color.Magenta))
                        //     SoundSettingsContent()
                             SoundPlayer()
 
