@@ -28,7 +28,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -47,7 +47,15 @@ import com.example.oct24provisional.ui.theme.OCT24ProvisionalTheme
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.material3.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import androidx.compose.runtime.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +82,8 @@ class MainActivity : ComponentActivity() {
                             ),
                             modifier = Modifier.padding(16.dp)
                         )
-
+                        Spacer(modifier = Modifier.height(16.dp))
+                        AnimatedText()
                         // Add Spacer if needed
                         Spacer(modifier = Modifier.height(16.dp))
 
@@ -177,3 +186,31 @@ fun FindSensors() {
 
 
 
+
+
+@Composable
+fun AnimatedText() {
+    var visibleText by remember { mutableStateOf("Please") }
+
+    LaunchedEffect(Unit) {
+        val words = listOf( "Lucky", "Dice", "Game")
+        var index = 1
+
+        while (true) {
+            delay(1000) // Change text every 1000 milliseconds
+            visibleText = words[index]
+            index = (index + 1) % words.size
+        }
+    }
+
+    Text(
+        modifier = Modifier
+            .padding(16.dp),
+        text = visibleText,
+        style = TextStyle(
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Green
+        )
+    )
+}
