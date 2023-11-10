@@ -1,6 +1,7 @@
 package com
 
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -29,6 +30,14 @@ import com.ui.theme.OCT24ProvisionalTheme
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Switch
+import android.media.MediaPlayer
+import androidx.compose.material3.Button
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContentProviderCompat.requireContext
+import com.example.oct24provisional.R
+
 
 
 class Options : ComponentActivity() {
@@ -112,8 +121,8 @@ class Options : ComponentActivity() {
 
                           //  FindSensors()
                             RadioGroup()
-
-
+                       //     SoundSettingsContent()
+                            SoundPlayer()
 
                         // Visual and Sound Settings
                         /* Add options for themes, music, sound effects, etc. */
@@ -201,8 +210,11 @@ fun RadioGroup() {
 }
 
 @Composable
-fun SoundSettingsContent() {
+fun SoundSettingsContent2() {
     var soundEnabled by remember { mutableStateOf(true) }
+    var mediaPlayer: MediaPlayer? by remember { mutableStateOf(null) }
+
+
 
     LazyColumn(
         modifier = Modifier
@@ -212,7 +224,7 @@ fun SoundSettingsContent() {
         item {
             Text(
                 text = "Sound Settings",
-                style = MaterialTheme.typography.h5,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
         }
@@ -220,25 +232,96 @@ fun SoundSettingsContent() {
         item {
             Switch(
                 checked = soundEnabled,
-                onCheckedChange = { newValue -> soundEnabled = newValue },
+                onCheckedChange = { newValue ->
+                    soundEnabled = newValue
+                    if (newValue) {
+
+                     //   mediaPlayer = MediaPlayer.create(, R.raw.point_being_go_by_ocean_ryan_mccaffrey)
+                     //   mediaPlayer = MediaPlayer.create(activity, Uri.parse("android.resource://${com}/${R.raw.point_being_go_by_ocean_ryan_mccaffrey}"))
+
+                        mediaPlayer?.start()
+                    } else {
+                        mediaPlayer?.stop()
+
+                        mediaPlayer?.release()
+                        mediaPlayer = null
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
             )
             Text(
                 text = "Enable Sound",
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(top = 4.dp)
             )
         }
     }
 }
-
-@Preview(showBackground = true)
 @Composable
-fun SoundSettingsPreview() {
-    FeatherAndroidTasksTheme {
-        SoundSettingsContent()
+fun SoundPlayer() {
+    val context = LocalContext.current
+    val mediaPlayer = remember { MediaPlayer.create(context, R.raw.point_being_go_by_ocean_ryan_mccaffrey) }
+
+    Button(
+        onClick = {
+            mediaPlayer.start()
+        },
+        modifier = Modifier.padding(16.dp)
+    ) {
+        Text("Play Sound")
     }
 }
+
+
+
+@Composable
+fun SoundSettingsContent() {
+    var soundEnabled by remember { mutableStateOf(true) }
+    var mediaPlayer: MediaPlayer? by remember { mutableStateOf(null) }
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        item {
+            Text(
+                text = "Sound Settings",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+        }
+
+        item {
+            Switch(
+                checked = soundEnabled,
+                onCheckedChange = { newValue ->
+                    soundEnabled = newValue
+                    if (newValue) {
+
+
+                     //   mediaPlayer = MediaPlayer.create(context, R.raw.point_being_go_by_ocean_ryan_mccaffrey)
+                        mediaPlayer?.start()
+                    } else {
+                        mediaPlayer?.stop()
+                        mediaPlayer?.release()
+                        mediaPlayer = null
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            )
+            Text(
+                text = "Enable Sound",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
+    }
+
+}
+
 
