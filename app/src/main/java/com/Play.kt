@@ -171,6 +171,9 @@ fun PlayScreen(modifier: Modifier = Modifier
         ) {
             Text(text = "Start Game")
         }
+        {
+           // Checkbox()
+        }
     }
 
 
