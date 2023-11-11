@@ -102,25 +102,19 @@ class Play : ComponentActivity() {
                             text = "Ready To Play ?", style = TextStyle(
                                 fontSize = 24.sp, fontWeight = FontWeight.Bold
                             ), modifier = Modifier.padding(16.dp)
-                        );
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                        ) {
-                            PlayScreen(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(1f)
-                            )
+                        )
 
-                            Spacer(modifier = Modifier.height(16.dp))
 
-                            UserNameSelection(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .weight(1f)
-                            )
+                            PlayScreen()
+
+
+
+
+
+
+
+
+
                         }
 
 
@@ -129,7 +123,7 @@ class Play : ComponentActivity() {
                 }
             }
         }
-    }
+
 
 @Composable
 fun Greeting3(name: String, modifier: Modifier = Modifier) {
