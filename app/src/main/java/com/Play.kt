@@ -104,25 +104,34 @@ class Play : ComponentActivity() {
                             ), modifier = Modifier.padding(16.dp)
                         )
 
+                    //    UserNameSelection()
 
-                            PlayScreen()
+                        PlayScreen2()
 
-
-
-
-
-
-
-
-
-                        }
-
+                            UserNameSelection()
 
                     }
-                    }
+
+
                 }
             }
         }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @Composable
@@ -171,10 +180,31 @@ fun PlayScreen(modifier: Modifier = Modifier
         ) {
             Text(text = "Start Game")
         }
-        {
-           // Checkbox()
-        }
+
     }
+
+         @Composable
+         fun PlayScreen(modifier: Modifier = Modifier.fillMaxSize()) {
+             val gifUrl = "https://media.tenor.com/5En-9o6PM6UAAAAC/dice.gif"
+
+             Box(
+                 modifier = modifier,
+                 contentAlignment = Alignment.Center
+             ) {
+                 AndroidView(
+                     modifier = Modifier.fillMaxSize(),
+                     factory = { context ->
+                         WebView(context).apply {
+                             loadUrl(gifUrl)
+                             settings.javaScriptEnabled = true
+                             webViewClient = WebViewClient()
+                         }
+                     }
+                 )
+
+                 // You can add additional content here if needed
+             }
+         }
 
 
 @Composable
@@ -252,7 +282,28 @@ fun UserNameSelection(modifier: Modifier = Modifier
             }
         }
     }
-
-
-
 }
+
+@Composable
+fun PlayScreen2(modifier: Modifier = Modifier.fillMaxSize()) {
+    val gifUrl = "https://media.tenor.com/5En-9o6PM6UAAAAC/dice.gif"
+
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
+        AndroidView(
+            modifier = Modifier.fillMaxSize(),
+            factory = { context ->
+                WebView(context).apply {
+                    loadUrl(gifUrl)
+                    settings.javaScriptEnabled = true
+                    webViewClient = WebViewClient()
+                }
+            }
+        )
+
+        // You can add additional content here if needed
+    }
+}
+
