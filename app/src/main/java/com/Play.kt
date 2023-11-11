@@ -75,6 +75,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.ui.unit.dp // Import for the padding modifier
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.platform.LocalConfiguration
 
 
 
@@ -106,7 +107,7 @@ class Play : ComponentActivity() {
 
                     //    UserNameSelection()
 
-                        PlayScreen2()
+                        PlayScreen()
 
                             UserNameSelection()
 
@@ -120,38 +121,10 @@ class Play : ComponentActivity() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@Composable
-fun Greeting3(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!", modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview3() {
-    OCT24ProvisionalTheme {
-        Greeting3("Android")
-    }
-}
-
 @Composable
 fun PlayScreen(modifier: Modifier = Modifier
-    .fillMaxWidth())
+    .fillMaxWidth()
+    .heightIn(max = (LocalConfiguration.current.screenHeightDp / 2).dp))
      {
     val gifUrl =
         "https://media.tenor.com/5En-9o6PM6UAAAAC/dice.gif" // Replace with your GIF URL
@@ -183,28 +156,6 @@ fun PlayScreen(modifier: Modifier = Modifier
 
     }
 
-         @Composable
-         fun PlayScreen(modifier: Modifier = Modifier.fillMaxSize()) {
-             val gifUrl = "https://media.tenor.com/5En-9o6PM6UAAAAC/dice.gif"
-
-             Box(
-                 modifier = modifier,
-                 contentAlignment = Alignment.Center
-             ) {
-                 AndroidView(
-                     modifier = Modifier.fillMaxSize(),
-                     factory = { context ->
-                         WebView(context).apply {
-                             loadUrl(gifUrl)
-                             settings.javaScriptEnabled = true
-                             webViewClient = WebViewClient()
-                         }
-                     }
-                 )
-
-                 // You can add additional content here if needed
-             }
-         }
 
 
 @Composable
@@ -284,26 +235,5 @@ fun UserNameSelection(modifier: Modifier = Modifier
     }
 }
 
-@Composable
-fun PlayScreen2(modifier: Modifier = Modifier.fillMaxSize()) {
-    val gifUrl = "https://media.tenor.com/5En-9o6PM6UAAAAC/dice.gif"
 
-    Box(
-        modifier = modifier,
-        contentAlignment = Alignment.Center
-    ) {
-        AndroidView(
-            modifier = Modifier.fillMaxSize(),
-            factory = { context ->
-                WebView(context).apply {
-                    loadUrl(gifUrl)
-                    settings.javaScriptEnabled = true
-                    webViewClient = WebViewClient()
-                }
-            }
-        )
-
-        // You can add additional content here if needed
-    }
-}
 
