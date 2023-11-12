@@ -13,11 +13,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material3.MaterialTheme
+
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 
@@ -36,6 +36,8 @@ import androidx.compose.material3.Switch
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.platform.LocalContext
@@ -46,7 +48,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import com.example.oct24provisional.MainActivity
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 
+
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.ui.text.rememberTextMeasurer
 
 class Options : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +96,10 @@ class Options : ComponentActivity() {
                         )
 
                         // Instructions
+
+
+
+// Instructions
                         Text(
                             text = "Game Rules",
                             style = TextStyle(
@@ -83,36 +109,36 @@ class Options : ComponentActivity() {
                             modifier = Modifier.padding(16.dp)
                         )
 
-                        Text(
-                            text = "In this dice game, you'll compete against the house. Here are the rules:",
-                            style = TextStyle(fontSize = 14.sp),
-                            modifier = Modifier.padding(8.dp)
-                        )
 
-                        Text(
-                            text = "1. Each player receives a throw consisting of two dice.",
-                            style = TextStyle(fontSize = 14.sp),
-                            modifier = Modifier.padding(8.dp)
-                        )
-
-                        Text(
-                            text = "2. The sum of each throw determines the winner of that round.",
-                            style = TextStyle(fontSize = 14.sp),
-                            modifier = Modifier.padding(8.dp)
-                        )
-
-                        Text(
-                            text = "3. If you roll a 'six,' you have the option to re-roll the lower die.",
-                            style = TextStyle(fontSize = 14.sp),
-                            modifier = Modifier.padding(8.dp)
-                        )
-
-                        Text(
-                            text = "4. The house can take a second throw once in a game.",
-                            style = TextStyle(fontSize = 14.sp),
-                            modifier = Modifier.padding(8.dp)
-                        )
-
+                        LazyColumn {
+                            item {
+                                Text( text = "Each player receives a throw consisting of two dice.",
+                                    style = TextStyle(fontSize = 14.sp),
+                                    modifier = Modifier.padding(8.dp)
+                                )
+                            }
+                            item {
+                                Text(
+                                    text = "The sum of each throw determines the winner of that round.",
+                                    style = TextStyle(fontSize = 14.sp),
+                                    modifier = Modifier.padding(8.dp)
+                                )
+                            }
+                            item {
+                                Text(
+                                    text = "If you roll a 'six,' you have the option to re-roll the lower die.",
+                                    style = TextStyle(fontSize = 14.sp),
+                                    modifier = Modifier.padding(8.dp)
+                                )
+                            }
+                            item {
+                                Text(
+                                    text = "The house can take a second throw once in a game, if it has more than 1 Round.",
+                                    style = TextStyle(fontSize = 14.sp),
+                                    modifier = Modifier.padding(8.dp)
+                                )
+                            }
+                        }
                         // Game Settings
                         Text(
                             text = "Game Settings",
@@ -123,15 +149,21 @@ class Options : ComponentActivity() {
                             modifier = Modifier.padding(16.dp)
                         )
 
-                        // Include options for users to configure game settings, such as sound, visuals, difficulty, and theme.
-                        // Include options for users to configure game settings
+                                // ... (other parts of Options composable)
+
+
+
 
                         //Below is the Composable to find which Sensors are on the Device
                           //  FindSensors()
 
-                            CustomRadioGroup(modifier = Modifier.background(Color.LightGray).border(1.dp, Color.Black) // Add a 1 dp black border
+                            CustomRadioGroup(modifier = Modifier
+                                .background(Color.LightGray)
+                                .border(1.dp, Color.Black) // Add a 1 dp black border
                             )
+                        Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
 
+                        GeneralComposable()
                             SoundPlayer()
 
                             // Button to navigate to  Home
@@ -163,6 +195,74 @@ class Options : ComponentActivity() {
     }
 }
 
+
+@Composable
+fun DropdownMenuItem(onClick: () -> Unit) {
+
+}
+
+@Composable
+fun RoundDropdownMenu3(
+    rounds: List<Int>,
+    selectedRound: Int,
+    onRoundSelected: (Int) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = Modifier
+            .clickable(onClick = { expanded = true })
+            .background(Color.LightGray)
+            .padding(16.dp)
+    ) {
+        Text(
+
+            text = "Choose Number of Rounds: $selectedRound",
+
+            style = MaterialTheme.typography.bodyLarge
+        )
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            rounds.forEach { round ->
+                DropdownMenuItem(
+                    onClick = {
+                        onRoundSelected(round)
+                        expanded = false
+
+
+                    }
+                )
+                    Text(text = round.toString())
+
+            }
+        }
+    }
+}
+
+
+@Composable
+fun GeneralComposable() {
+    var selectedRound by remember { mutableStateOf(5) }
+    val rounds = listOf(5, 10, 15, 20) // Replace with your list of rounds
+
+    Column {
+        // ... (other components)
+
+        RoundDropdownMenu3(
+            rounds = rounds,
+            selectedRound = selectedRound,
+            onRoundSelected = { newRound ->
+                selectedRound = newRound
+            }
+        )
+
+        // ... (other components)
+    }
+}
 
 
 
