@@ -1,5 +1,6 @@
 package com
 
+import android.content.Intent
 import android.widget.Toast
 
 import androidx.compose.runtime.remember
@@ -50,7 +51,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -76,7 +76,8 @@ import androidx.compose.ui.unit.dp // Import for the padding modifier
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.platform.LocalConfiguration
-
+import com.example.oct24provisional.MainActivity
+import androidx.compose.ui.graphics.Color
 
 
 class Play : ComponentActivity() {
@@ -113,7 +114,29 @@ class Play : ComponentActivity() {
                         UserNameSelection2()
 
                         StartGameButton()
+                        // Button to navigate to  Home
+                        Button(
+                            onClick = {
+                                // Create an Intent to navigate to Home
+                                val intent = Intent(this@Play, MainActivity::class.java)
+                                startActivity(intent)
+                            }
+                        ) {
+                            Text("Go to Home")
+                        }
 
+                        // Button to navigate to  Options
+                        Button(
+                            onClick = {
+                                // Create an Intent to navigate to Home
+                                val intent = Intent(this@Play, Options::class.java)
+                                startActivity(intent)
+                            }
+                        ) {
+                            Text("Go to Options")
+                        }
+
+                    }
                     }
 
 
@@ -121,7 +144,7 @@ class Play : ComponentActivity() {
             }
         }
     }
-}
+
 
 
 @Composable
@@ -342,6 +365,8 @@ fun StartGameButton() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp),
+        colors = ButtonDefaults.buttonColors(  Color.Green) // Set the background color to green
+
     ) {
         Text(text = "Start Game")
     }

@@ -99,7 +99,7 @@ class MainActivity : ComponentActivity() {
                             Text("Go to Options")
                         }
                         Spacer(modifier = Modifier.height(16.dp))
-                        // Button to navigate to Options
+                        // Button to navigate to Play
                         Button(
                             onClick = {
                                 // Create an Intent to navigate to Options
