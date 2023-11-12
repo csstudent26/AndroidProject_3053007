@@ -90,12 +90,8 @@ class Options : ComponentActivity() {
                         modifier = Modifier
                             .padding(16.dp) //
                             .verticalScroll(rememberScrollState())
-
-
-
-                    /*  modifier = Modifier.fillMaxSize(),
-                      verticalArrangement = Arrangement.Top,
-                      horizontalAlignment = Alignment.CenterHorizontally*/
+                            .fillMaxSize(),
+                             horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         // Title
                         Text(
@@ -252,8 +248,9 @@ fun SoundPlayer() {
             isSoundOn = !isSoundOn // Toggle the sound state
         },
         colors = ButtonDefaults.buttonColors( Color(0xFF006400)), // Set the background color to green
-
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .fillMaxWidth() // Make the button fill the entire width of the screen
+            .padding(16.dp)
     ) {
         Text(if (isSoundOn) "Turn Off Sound" else "Turn On Sound",color = Color.White)
     }
