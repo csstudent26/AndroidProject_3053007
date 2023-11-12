@@ -86,6 +86,8 @@ class Options : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
+
+                    // Using Modifier to Enable Scrolling on the page
                 )  { Column(
                         modifier = Modifier
                             .padding(16.dp) //
@@ -115,7 +117,7 @@ class Options : ComponentActivity() {
                             modifier = Modifier.padding(16.dp)
                         )
 
-
+                        // Using a LazyColumn to get flexibility dealing with the 'Rules'
                         LazyColumn(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -162,19 +164,26 @@ class Options : ComponentActivity() {
                             modifier = Modifier.padding(16.dp)
                         )
 
-                        // ... (other parts of Options composable)
+
 
 
                         //Below is the Composable to find which Sensors are on the Device
                         //  FindSensors()
+
+                        //A Composable which explains to the user about settings for 'Skill Level'
                         GameSettingsInfo()
+                        //Composable explains to user about choosing number of 'Rounds' in Game
+
                         OptionsScreen()
+                        //Composable to place 'Radio Buttons'
                         CustomRadioGroup(
                             modifier = Modifier
                                 .background(Color.LightGray)
                                 .border(1.dp, Color.Black) // Add a 1 dp black border
                         )
+                        //Spacer
                         Spacer(modifier = Modifier.height(30.dp)) // Adjust height as neede
+                        // Button to play 'Sound'( Music)
                         SoundPlayer()
 
                         // Button to navigate to  Home
@@ -217,27 +226,17 @@ class Options : ComponentActivity() {
 
 
 
-@Composable
-fun SoundPlayer2() {
-    val context = LocalContext.current
-    val mediaPlayer = remember { MediaPlayer.create(context, R.raw.point_being_go_by_ocean_ryan_mccaffrey) }
 
-    Button(
-        onClick = {
-            mediaPlayer.start()
-        },
-        modifier = Modifier.padding(16.dp)
-    ) {
-        Text("Play Sound")
-    }
-}
-
+//Composable for our 'Sound' and sound button
 @Composable
 fun SoundPlayer() {
     val context = LocalContext.current
+
+    // Music Download from You Tube( Allowed)
     val mediaPlayer = remember { MediaPlayer.create(context, R.raw.point_being_go_by_ocean_ryan_mccaffrey) }
     var isSoundOn by remember { mutableStateOf(true) }
 
+    // Sound Button with Toggle
     Button(
         onClick = {
             if (isSoundOn) {
@@ -258,37 +257,7 @@ fun SoundPlayer() {
 
 
 
-@Composable
-fun CustomRadioGroup2(modifier: Modifier = Modifier) {
-    val levels = listOf("Beginner", "Intermediate", "Expert")
-    var selectedLevel by remember { mutableStateOf(levels[0]) }
-
-    Column(
-        modifier = modifier
-    ) {
-        levels.forEach { level ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .selectable(
-                        selected = (level == selectedLevel),
-                        onClick = { selectedLevel = level }
-                    )
-                    .padding(horizontal = 16.dp)
-            ) {
-                RadioButton(
-                    selected = (level == selectedLevel),
-                    onClick = { selectedLevel = level },
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-                Text(
-                    text = level,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-            }
-        }
-    }
-}
+// Composable for Radio Buttons
 @Composable
 fun CustomRadioGroup(modifier: Modifier = Modifier) {
     val levels = listOf("Beginner", "Intermediate", "Expert")
@@ -326,6 +295,8 @@ fun CustomRadioGroup(modifier: Modifier = Modifier) {
         }
     }
 }
+
+//Composable for Checkbox for number of rounds
 @Composable
 fun RoundsCheckbox(
     selectedRounds: Int,
@@ -353,6 +324,7 @@ fun RoundsCheckbox(
     }
 }
 
+//Working with checkboxes selection
 @Composable
 fun RoundsCheckboxItem(
     rounds: Int,
@@ -378,7 +350,7 @@ fun RoundsCheckboxItem(
 
     }
 }
-
+//Composable for setting checkboxes
 @Composable
 fun OptionsScreen() {
     var selectedRounds by remember { mutableStateOf(5) }
@@ -394,6 +366,7 @@ fun OptionsScreen() {
     }
 }
 
+//Composable to Instruct users on need to choose Playing Level
 @Composable
 fun GameSettingsInfo() {
     Column(
