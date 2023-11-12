@@ -67,6 +67,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 
+import androidx.compose.ui.text.font.FontFamily
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -74,6 +75,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.text.font.Font
 
 class Options : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,7 +101,7 @@ class Options : ComponentActivity() {
                         Text(
                             text = "Game Options",
                             style = TextStyle(
-                                fontSize = 20.sp, // Adjust the font size as needed
+                                fontSize = 24.sp, // Adjust the font size as needed
                                 fontWeight = FontWeight.Bold
                             ),
                             modifier = Modifier.padding(16.dp)
@@ -111,7 +113,7 @@ class Options : ComponentActivity() {
                         Text(
                             text = "Game Rules",
                             style = TextStyle(
-                                fontSize = 20.sp, // Adjust the font size as needed
+                                fontSize = 22.sp, // Adjust the font size as needed
                                 fontWeight = FontWeight.Bold
                             ),
                             modifier = Modifier.padding(16.dp)
@@ -158,7 +160,7 @@ class Options : ComponentActivity() {
                         Text(
                             text = "Game Settings",
                             style = TextStyle(
-                                fontSize = 20.sp, // Adjust the font size as needed
+                                fontSize = 22.sp, // Adjust the font size as needed
                                 fontWeight = FontWeight.Bold
                             ),
                             modifier = Modifier.padding(16.dp)
@@ -169,6 +171,7 @@ class Options : ComponentActivity() {
 
                         //Below is the Composable to find which Sensors are on the Device
                         //  FindSensors()
+                        GameSettingsInfo()
                         OptionsScreen()
                         CustomRadioGroup(
                             modifier = Modifier
@@ -391,6 +394,26 @@ fun OptionsScreen() {
         }
 
         // ... (other components)
+    }
+}
+
+@Composable
+fun GameSettingsInfo() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Text(
+            "Choose the Number of Rounds Per Game",
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Text(
+            "The House will react to your chosen level by either playing Random, employing a Strategy, or if Expert, using AI.",
+            fontSize = 18.sp
+        )
     }
 }
 
