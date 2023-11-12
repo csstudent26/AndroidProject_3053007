@@ -35,12 +35,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Switch
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.oct24provisional.R
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import com.example.oct24provisional.MainActivity
 
@@ -123,10 +126,11 @@ class Options : ComponentActivity() {
                         // Include options for users to configure game settings, such as sound, visuals, difficulty, and theme.
                         // Include options for users to configure game settings
 
-
+                        //Below is the Composable to find which Sensors are on the Device
                           //  FindSensors()
 
-                            CustomRadioGroup(modifier = Modifier.background(Color.Magenta))
+                            CustomRadioGroup(modifier = Modifier.background(Color.LightGray).border(1.dp, Color.Black) // Add a 1 dp black border
+                            )
 
                             SoundPlayer()
 
@@ -163,7 +167,7 @@ class Options : ComponentActivity() {
 
 
 @Composable
-fun SoundPlayer() {
+fun SoundPlayer2() {
     val context = LocalContext.current
     val mediaPlayer = remember { MediaPlayer.create(context, R.raw.point_being_go_by_ocean_ryan_mccaffrey) }
 
@@ -177,11 +181,33 @@ fun SoundPlayer() {
     }
 }
 
+@Composable
+fun SoundPlayer() {
+    val context = LocalContext.current
+    val mediaPlayer = remember { MediaPlayer.create(context, R.raw.point_being_go_by_ocean_ryan_mccaffrey) }
+    var isSoundOn by remember { mutableStateOf(true) }
+
+    Button(
+        onClick = {
+            if (isSoundOn) {
+                mediaPlayer.start() // Play the sound
+            } else {
+                mediaPlayer.pause() // Pause the sound (or stop, depending on your preference)
+            }
+            isSoundOn = !isSoundOn // Toggle the sound state
+        },
+        colors = ButtonDefaults.buttonColors( Color(0xFF006400)), // Set the background color to green
+
+        modifier = Modifier.padding(16.dp)
+    ) {
+        Text(if (isSoundOn) "Turn Off Sound" else "Turn On Sound",color = Color.White)
+    }
+}
 
 
 
 @Composable
-fun CustomRadioGroup(modifier: Modifier = Modifier) {
+fun CustomRadioGroup2(modifier: Modifier = Modifier) {
     val levels = listOf("Beginner", "Intermediate", "Expert")
     var selectedLevel by remember { mutableStateOf(levels[0]) }
 
@@ -205,6 +231,43 @@ fun CustomRadioGroup(modifier: Modifier = Modifier) {
                 )
                 Text(
                     text = level,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            }
+        }
+    }
+}
+@Composable
+fun CustomRadioGroup(modifier: Modifier = Modifier) {
+    val levels = listOf("Beginner", "Intermediate", "Expert")
+    var selectedLevel by remember { mutableStateOf(levels[0]) }
+
+    Column(
+        modifier = modifier
+    ) {
+        levels.forEach { level ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .selectable(
+                        selected = (level == selectedLevel),
+                        onClick = { selectedLevel = level }
+                    )
+                    .padding(horizontal = 16.dp)
+            ) {
+                RadioButton(
+                    selected = (level == selectedLevel),
+                    onClick = { selectedLevel = level },
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .scale(2f) // Adjust the scale (f) as needed (2f is twice the default size)
+                )
+                Text(
+                    text = level,
+                    style = TextStyle(
+                        fontSize = 22.sp, // Adjust the font size as needed
+                        fontWeight = FontWeight.Normal // Adjust the font weight as needed
+                    ),
                     modifier = Modifier.padding(start = 16.dp)
                 )
             }
