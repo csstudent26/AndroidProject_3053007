@@ -107,7 +107,7 @@ class Play : ComponentActivity() {
 
                     //    UserNameSelection()
 
-                        PlayScreen()
+                        PlayScreen3()
 
                             UserNameSelection()
 
@@ -235,5 +235,75 @@ fun UserNameSelection(modifier: Modifier = Modifier
     }
 }
 
+@Composable
+fun PlayScreen2(modifier: Modifier = Modifier
+    .fillMaxWidth()
+    .heightIn(max = (LocalConfiguration.current.screenHeightDp / 2).dp)
+) {
+    val gifUrl = "https://media.tenor.com/5En-9o6PM6UAAAAC/dice.gif" // Replace with your GIF URL
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        AndroidView(
+            modifier = modifier,
+            factory = { context ->
+                WebView(context).apply {
+                    loadUrl(gifUrl)
 
+                    settings.javaScriptEnabled = true
+                    webViewClient = WebViewClient()
+                }
+            }
+        )
+        // Button to start the game and navigate to the DieResultScreen
+        Button(
+            onClick = {
+
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+        ) {
+            Text(text = "Start Game")
+        }
+    }
+}
+
+@Composable
+fun PlayScreen3(modifier: Modifier = Modifier
+    .fillMaxWidth()
+    .heightIn(max = (LocalConfiguration.current.screenHeightDp / 2).dp)
+) {
+    val gifUrl = "https://media.tenor.com/5En-9o6PM6UAAAAC/dice.gif" // Replace with your GIF URL
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(max = (LocalConfiguration.current.screenHeightDp / 4).dp)
+    ) {
+        AndroidView(
+            modifier = Modifier.fillMaxSize(),
+            factory = { context ->
+                WebView(context).apply {
+                    loadUrl(gifUrl)
+
+                    settings.javaScriptEnabled = true
+                    webViewClient = WebViewClient()
+                }
+            }
+        )
+        // Button to start the game and navigate to the DieResultScreen
+        Button(
+            onClick = {
+
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+        ) {
+            Text(text = "Start Game")
+        }
+    }
+}
 
