@@ -1,7 +1,7 @@
 package com
 
 
-import android.content.Context
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -125,9 +125,9 @@ class Options : ComponentActivity() {
 
 
                           //  FindSensors()
-                          //  RadioGroup()
+
                             CustomRadioGroup(modifier = Modifier.background(Color.Magenta))
-                       //     SoundSettingsContent()
+
                             SoundPlayer()
 
                             // Button to navigate to  Home
@@ -152,11 +152,6 @@ class Options : ComponentActivity() {
                                 Text("Go to Play")
                             }
 
-                        // Visual and Sound Settings
-                        /* Add options for themes, music, sound effects, etc. */
-
-                        // Advanced Settings
-                        /* Add advanced options if needed */
                     }
                 }
             }
@@ -164,129 +159,9 @@ class Options : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting4(name: String, modifier: Modifier = Modifier) {
-
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview4() {
-    OCT24ProvisionalTheme {
-        Greeting4("Android")
-    }
-}
-
-@Composable
-fun RadioGroup2() {
-    val levels = listOf("Easy", "Medium", "Hard")
-    var selectedLevel = levels[0]
-
-    Column {
-        levels.forEach { level ->
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .selectable(
-                        selected = (level == selectedLevel),
-                        onClick = { selectedLevel = level }
-                    )
-                    .padding(horizontal = 16.dp)
-            ) {
-                RadioButton(
-                    selected = (level == selectedLevel),
-                    onClick = { selectedLevel = level },
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-
-            }
-        }
-    }
-}
-@Composable
-fun RadioGroup() {
-    val levels = listOf("Beginner", "Intermediate", "Expert")
-    var selectedLevel = levels[0]
-
-    Column {
-        levels.forEach { level ->
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .selectable(
-                        selected = (level == selectedLevel),
-                        onClick = { selectedLevel = level }
-                    )
-                    .padding(horizontal = 16.dp)
-            ) {
-                RadioButton(
-                    selected = (level == selectedLevel),
-                    onClick = { selectedLevel = level },
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-                Text(
-                    text = level,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun SoundSettingsContent2() {
-    var soundEnabled by remember { mutableStateOf(true) }
-    var mediaPlayer: MediaPlayer? by remember { mutableStateOf(null) }
 
 
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        item {
-            Text(
-                text = "Sound Settings",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-        }
-
-        item {
-            Switch(
-                checked = soundEnabled,
-                onCheckedChange = { newValue ->
-                    soundEnabled = newValue
-                    if (newValue) {
-
-                     //   mediaPlayer = MediaPlayer.create(, R.raw.point_being_go_by_ocean_ryan_mccaffrey)
-                     //   mediaPlayer = MediaPlayer.create(activity, Uri.parse("android.resource://${com}/${R.raw.point_being_go_by_ocean_ryan_mccaffrey}"))
-
-                        mediaPlayer?.start()
-                    } else {
-                        mediaPlayer?.stop()
-
-                        mediaPlayer?.release()
-                        mediaPlayer = null
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-            )
-            Text(
-                text = "Enable Sound",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-        }
-    }
-}
 @Composable
 fun SoundPlayer() {
     val context = LocalContext.current
@@ -304,53 +179,6 @@ fun SoundPlayer() {
 
 
 
-@Composable
-fun SoundSettingsContent() {
-    var soundEnabled by remember { mutableStateOf(true) }
-    var mediaPlayer: MediaPlayer? by remember { mutableStateOf(null) }
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        item {
-            Text(
-                text = "Sound Settings",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-        }
-
-        item {
-            Switch(
-                checked = soundEnabled,
-                onCheckedChange = { newValue ->
-                    soundEnabled = newValue
-                    if (newValue) {
-
-
-                     //   mediaPlayer = MediaPlayer.create(context, R.raw.point_being_go_by_ocean_ryan_mccaffrey)
-                        mediaPlayer?.start()
-                    } else {
-                        mediaPlayer?.stop()
-                        mediaPlayer?.release()
-                        mediaPlayer = null
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-            )
-            Text(
-                text = "Enable Sound",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-        }
-    }
-
-}
 
 @Composable
 fun CustomRadioGroup(modifier: Modifier = Modifier) {
