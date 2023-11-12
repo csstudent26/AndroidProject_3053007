@@ -110,6 +110,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             Text("Go to Play")
                         }
+                           // Displays main image on home page
                            HomeScreen()
 
                     }
@@ -120,44 +121,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-   /* val context = LocalContext.current
-    val sensorManager: SensorManager =
-        context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
-    println(deviceSensors)*/
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    OCT24ProvisionalTheme {
-        Greeting("Android")
-    }
-}
 
-@Composable
-fun HomeScreen2() {
-    val imagePainter: Painter = painterResource(id = R.drawable.dicegame)
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Display the image
-        Image(
-            painter = imagePainter,
-            contentDescription = "Dice Game Image",
-          //  modifier = Modifier.size(200.dp) // Adjust the size as needed
-        )
-        // Add more content, buttons, or text below the image if desired
-    }
-}
+// Composable to display our main image
 @Composable
 fun HomeScreen() {
     val imagePainter: Painter = painterResource(id = R.drawable.dicegame)
@@ -168,7 +134,7 @@ fun HomeScreen() {
         modifier = Modifier.fillMaxSize()
     )
 }
-
+// Composable which allows us to find which sensors are on a device
 @Composable
 fun FindSensors() {
 
@@ -188,7 +154,7 @@ fun FindSensors() {
 
 
 
-
+// A Composable that gives Animated Text ('Lucky Dice Game')
 @Composable
 fun AnimatedText() {
     var visibleText by remember { mutableStateOf("Please") }
