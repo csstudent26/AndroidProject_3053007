@@ -78,6 +78,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.platform.LocalConfiguration
 import com.example.oct24provisional.MainActivity
 import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.size
+
+
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
+
+
 
 
 class Play : ComponentActivity() {
@@ -102,11 +113,11 @@ class Play : ComponentActivity() {
                     ) {
                         Text(
                             text = "Ready To Play ?", style = TextStyle(
-                                fontSize = 24.sp, fontWeight = FontWeight.Bold
+                                fontSize = 28.sp, fontWeight = FontWeight.Bold
                             ), modifier = Modifier.padding(16.dp)
                         )
 
-                    //    UserNameSelection()
+
 
                         PlayScreen3()
                         Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
@@ -264,18 +275,20 @@ fun UserNameSelection(modifier: Modifier = Modifier
 @Composable
 fun UserNameSelection2(modifier: Modifier = Modifier.fillMaxWidth()) {
     // List of available usernames
-    val userNames = listOf("Alice", "Bob", "Charlie")
+    val userNames = listOf("Aviator", "Hope", "Gambler")
+
 
     // State to track the selected username
     var selectedUserName by remember { mutableStateOf<String?>(null) }
 
     // Display the list of usernames with checkboxes
     Column {
+
         // Text prompting the user to choose a username
 
         Text(
             text = "Please choose a User Name",
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyLarge,color = Color.Red,fontSize = 24.sp,
             modifier = Modifier.padding(8.dp, 0.dp, 0.dp, 16.dp) // Adjust padding as needed
         )
         // List of usernames with checkboxes
@@ -288,7 +301,14 @@ fun UserNameSelection2(modifier: Modifier = Modifier.fillMaxWidth()) {
                     },
                     modifier = Modifier.padding(start = 16.dp)
                 )
-                Text(text = userName, modifier = Modifier.padding(16.dp))
+               /* Text(text = userName, modifier = Modifier.padding(16.dp))
+                    .style(MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp)) */
+                Text(
+                    text = userName,
+                    modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp)
+                )
+
             }
         }
     }
@@ -365,7 +385,7 @@ fun StartGameButton() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp),
-        colors = ButtonDefaults.buttonColors(  Color.Green) // Set the background color to green
+        colors = ButtonDefaults.buttonColors( Color(0xFF006400)) // Set the background color to green
 
     ) {
         Text(text = "Start Game")
