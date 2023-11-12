@@ -2,6 +2,7 @@ package com
 
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -41,6 +42,7 @@ import com.example.oct24provisional.R
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.example.oct24provisional.MainActivity
 
 
 class Options : ComponentActivity() {
@@ -127,6 +129,28 @@ class Options : ComponentActivity() {
                             CustomRadioGroup(modifier = Modifier.background(Color.Magenta))
                        //     SoundSettingsContent()
                             SoundPlayer()
+
+                            // Button to navigate to  Home
+                            Button(
+                                onClick = {
+                                    // Create an Intent to navigate to Home
+                                    val intent = Intent(this@Options, MainActivity::class.java)
+                                    startActivity(intent)
+                                }
+                            ) {
+                                Text("Go to Home")
+                            }
+
+                            // Button to navigate to  Options
+                            Button(
+                                onClick = {
+                                    // Create an Intent to navigate to Home
+                                    val intent = Intent(this@Options, Play::class.java)
+                                    startActivity(intent)
+                                }
+                            ) {
+                                Text("Go to Play")
+                            }
 
                         // Visual and Sound Settings
                         /* Add options for themes, music, sound effects, etc. */
