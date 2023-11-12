@@ -82,6 +82,7 @@ class MainActivity : ComponentActivity() {
                             ),
                             modifier = Modifier.padding(16.dp)
                         )
+                        // A Spacer between the Animated Text and 'Welcoming Message'
                         Spacer(modifier = Modifier.height(16.dp))
                         AnimatedText()
                         // Add Spacer if needed
