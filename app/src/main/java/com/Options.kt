@@ -56,7 +56,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
@@ -69,6 +72,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.material3.Checkbox
+import androidx.compose.runtime.rememberUpdatedState
 
 class Options : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,11 +84,16 @@ class Options : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
-                ) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                )  { Column(
+                        modifier = Modifier
+                            .padding(16.dp) //
+                            .verticalScroll(rememberScrollState())
+
+
+
+                    /*  modifier = Modifier.fillMaxSize(),
+                      verticalArrangement = Arrangement.Top,
+                      horizontalAlignment = Alignment.CenterHorizontally*/
                     ) {
                         // Title
                         Text(
@@ -98,43 +108,48 @@ class Options : ComponentActivity() {
                         // Instructions
 
 
-
-// Instructions
                         Text(
                             text = "Game Rules",
                             style = TextStyle(
-                                fontSize = 16.sp, // Adjust the font size as needed
+                                fontSize = 20.sp, // Adjust the font size as needed
                                 fontWeight = FontWeight.Bold
                             ),
                             modifier = Modifier.padding(16.dp)
                         )
 
 
-                        LazyColumn {
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(300.dp)
+                              //  .verticalScroll(rememberScrollState())
+
+                        ) {
                             item {
-                                Text( text = "Each player receives a throw consisting of two dice.",
-                                    style = TextStyle(fontSize = 14.sp),
+                                Text(
+                                    text = "Each player receives a throw consisting of two dice.",
+                                    style = TextStyle(fontSize = 18.sp),
                                     modifier = Modifier.padding(8.dp)
                                 )
                             }
                             item {
                                 Text(
                                     text = "The sum of each throw determines the winner of that round.",
-                                    style = TextStyle(fontSize = 14.sp),
+                                    style = TextStyle(fontSize = 18.sp),
                                     modifier = Modifier.padding(8.dp)
                                 )
                             }
                             item {
                                 Text(
                                     text = "If you roll a 'six,' you have the option to re-roll the lower die.",
-                                    style = TextStyle(fontSize = 14.sp),
+                                    style = TextStyle(fontSize = 18.sp),
                                     modifier = Modifier.padding(8.dp)
                                 )
                             }
                             item {
                                 Text(
                                     text = "The house can take a second throw once in a game, if it has more than 1 Round.",
-                                    style = TextStyle(fontSize = 14.sp),
+                                    style = TextStyle(fontSize = 18.sp),
                                     modifier = Modifier.padding(8.dp)
                                 )
                             }
@@ -143,50 +158,47 @@ class Options : ComponentActivity() {
                         Text(
                             text = "Game Settings",
                             style = TextStyle(
-                                fontSize = 16.sp, // Adjust the font size as needed
+                                fontSize = 20.sp, // Adjust the font size as needed
                                 fontWeight = FontWeight.Bold
                             ),
                             modifier = Modifier.padding(16.dp)
                         )
 
-                                // ... (other parts of Options composable)
-
-
+                        // ... (other parts of Options composable)
 
 
                         //Below is the Composable to find which Sensors are on the Device
-                          //  FindSensors()
-
-                            CustomRadioGroup(modifier = Modifier
+                        //  FindSensors()
+                        OptionsScreen()
+                        CustomRadioGroup(
+                            modifier = Modifier
                                 .background(Color.LightGray)
                                 .border(1.dp, Color.Black) // Add a 1 dp black border
-                            )
-                        Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
+                        )
+                        Spacer(modifier = Modifier.height(30.dp)) // Adjust height as neede
+                        SoundPlayer()
 
-                        GeneralComposable()
-                            SoundPlayer()
-
-                            // Button to navigate to  Home
-                            Button(
-                                onClick = {
-                                    // Create an Intent to navigate to Home
-                                    val intent = Intent(this@Options, MainActivity::class.java)
-                                    startActivity(intent)
-                                }
-                            ) {
-                                Text("Go to Home")
+                        // Button to navigate to  Home
+                        Button(
+                            onClick = {
+                                // Create an Intent to navigate to Home
+                                val intent = Intent(this@Options, MainActivity::class.java)
+                                startActivity(intent)
                             }
+                        ) {
+                            Text("Go to Home")
+                        }
 
-                            // Button to navigate to  Options
-                            Button(
-                                onClick = {
-                                    // Create an Intent to navigate to Home
-                                    val intent = Intent(this@Options, Play::class.java)
-                                    startActivity(intent)
-                                }
-                            ) {
-                                Text("Go to Play")
+                        // Button to navigate to  Options
+                        Button(
+                            onClick = {
+                                // Create an Intent to navigate to Home
+                                val intent = Intent(this@Options, Play::class.java)
+                                startActivity(intent)
                             }
+                        ) {
+                            Text("Go to Play")
+                        }
 
                     }
                 }
@@ -196,73 +208,13 @@ class Options : ComponentActivity() {
 }
 
 
-@Composable
-fun DropdownMenuItem(onClick: () -> Unit) {
-
-}
-
-@Composable
-fun RoundDropdownMenu3(
-    rounds: List<Int>,
-    selectedRound: Int,
-    onRoundSelected: (Int) -> Unit
-) {
-    var expanded by remember { mutableStateOf(false) }
-
-    Box(
-        modifier = Modifier
-            .clickable(onClick = { expanded = true })
-            .background(Color.LightGray)
-            .padding(16.dp)
-    ) {
-        Text(
-
-            text = "Choose Number of Rounds: $selectedRound",
-
-            style = MaterialTheme.typography.bodyLarge
-        )
-
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            rounds.forEach { round ->
-                DropdownMenuItem(
-                    onClick = {
-                        onRoundSelected(round)
-                        expanded = false
 
 
-                    }
-                )
-                    Text(text = round.toString())
-
-            }
-        }
-    }
-}
 
 
-@Composable
-fun GeneralComposable() {
-    var selectedRound by remember { mutableStateOf(5) }
-    val rounds = listOf(5, 10, 15, 20) // Replace with your list of rounds
 
-    Column {
-        // ... (other components)
 
-        RoundDropdownMenu3(
-            rounds = rounds,
-            selectedRound = selectedRound,
-            onRoundSelected = { newRound ->
-                selectedRound = newRound
-            }
-        )
 
-        // ... (other components)
-    }
-}
 
 
 
@@ -372,6 +324,73 @@ fun CustomRadioGroup(modifier: Modifier = Modifier) {
                 )
             }
         }
+    }
+}
+@Composable
+fun RoundsCheckbox(
+    selectedRounds: Int,
+    onRoundsSelected: (Int) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+            .background(Color(0xFFADD8E6)) // Set the background color to light blue
+
+            .border(1.dp, Color.Black) // Add a 1 dp black border around the entire column
+
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            RoundsCheckboxItem(3, selectedRounds, onRoundsSelected)
+            RoundsCheckboxItem(5, selectedRounds, onRoundsSelected)
+            RoundsCheckboxItem(10, selectedRounds, onRoundsSelected)
+        }
+    }
+}
+
+@Composable
+fun RoundsCheckboxItem(
+    rounds: Int,
+    selectedRounds: Int,
+    onRoundsSelected: (Int) -> Unit
+) {
+    val isSelected = rememberUpdatedState(selectedRounds == rounds)
+
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.clickable { onRoundsSelected(rounds) }
+            .background(if (isSelected.value) Color.Red else Color.Transparent)
+
+    ) {
+        Checkbox(
+            checked = rounds == selectedRounds,
+            onCheckedChange = null // We handle the click in the Row
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(text = "$rounds Rounds",
+        color = if (isSelected.value) Color.White else Color.Black)
+
+    }
+}
+
+@Composable
+fun OptionsScreen() {
+    var selectedRounds by remember { mutableStateOf(5) }
+
+    Column {
+        // ... (other components)
+
+        RoundsCheckbox(selectedRounds = selectedRounds) { newRounds ->
+            selectedRounds = newRounds
+        }
+
+        // ... (other components)
     }
 }
 
