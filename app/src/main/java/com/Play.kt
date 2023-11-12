@@ -118,7 +118,7 @@ class Play : ComponentActivity() {
                         )
 
 
-
+                        //Composable to display animated Giff
                         PlayScreen3()
                         Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
 
@@ -158,43 +158,9 @@ class Play : ComponentActivity() {
 
 
 
-@Composable
-fun PlayScreen(modifier: Modifier = Modifier
-    .fillMaxWidth()
-    .heightIn(max = (LocalConfiguration.current.screenHeightDp / 2).dp))
-     {
-    val gifUrl =
-        "https://media.tenor.com/5En-9o6PM6UAAAAC/dice.gif" // Replace with your GIF URL
-    Box(
-        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
-    ) {
-        AndroidView(
-
-            modifier = Modifier.fillMaxSize(), factory = { context ->
-                WebView(context).apply {
-                    loadUrl(gifUrl)
-
-                    settings.javaScriptEnabled = true
-                    webViewClient = WebViewClient()
-                }
-            })
-        // Button to start the game and navigate to the DieResultScreen
-        Button(
-            onClick = {
 
 
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-        ) {
-            Text(text = "Start Game")
-        }
-
-    }
-
-
-
+//Composable for funtionality in game (not yet in use)
 @Composable
 fun DieResultScreen() {
     // Simulate the result of a die throw
@@ -272,6 +238,8 @@ fun UserNameSelection(modifier: Modifier = Modifier
     }
 }
 
+
+// Composable to choose User Name
 @Composable
 fun UserNameSelection2(modifier: Modifier = Modifier.fillMaxWidth()) {
     // List of available usernames
@@ -314,42 +282,8 @@ fun UserNameSelection2(modifier: Modifier = Modifier.fillMaxWidth()) {
     }
 }
 
-@Composable
-fun PlayScreen2(modifier: Modifier = Modifier
-    .fillMaxWidth()
-    .heightIn(max = (LocalConfiguration.current.screenHeightDp / 2).dp)
-) {
-    val gifUrl = "https://media.tenor.com/5En-9o6PM6UAAAAC/dice.gif" // Replace with your GIF URL
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        AndroidView(
-            modifier = modifier,
-            factory = { context ->
-                WebView(context).apply {
-                    loadUrl(gifUrl)
 
-                    settings.javaScriptEnabled = true
-                    webViewClient = WebViewClient()
-                }
-            }
-        )
-        // Button to start the game and navigate to the DieResultScreen
-        Button(
-            onClick = {
-
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-        ) {
-            Text(text = "Start Game")
-        }
-    }
-}
-
+//Composable to create and display Giff
 @Composable
 fun PlayScreen3(modifier: Modifier = Modifier
     .fillMaxWidth()
@@ -377,7 +311,7 @@ fun PlayScreen3(modifier: Modifier = Modifier
         }
     }
 
-
+//Composable to start Game (not yet functional
 @Composable
 fun StartGameButton() {
     Button(
