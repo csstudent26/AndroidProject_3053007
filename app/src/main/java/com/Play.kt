@@ -108,8 +108,11 @@ class Play : ComponentActivity() {
                     //    UserNameSelection()
 
                         PlayScreen3()
+                        Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
 
-                            UserNameSelection()
+                        UserNameSelection2()
+
+                        StartGameButton()
 
                     }
 
@@ -236,6 +239,39 @@ fun UserNameSelection(modifier: Modifier = Modifier
 }
 
 @Composable
+fun UserNameSelection2(modifier: Modifier = Modifier.fillMaxWidth()) {
+    // List of available usernames
+    val userNames = listOf("Alice", "Bob", "Charlie")
+
+    // State to track the selected username
+    var selectedUserName by remember { mutableStateOf<String?>(null) }
+
+    // Display the list of usernames with checkboxes
+    Column {
+        // Text prompting the user to choose a username
+
+        Text(
+            text = "Please choose a User Name",
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(8.dp, 0.dp, 0.dp, 16.dp) // Adjust padding as needed
+        )
+        // List of usernames with checkboxes
+        userNames.forEach { userName ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(
+                    checked = selectedUserName == userName,
+                    onCheckedChange = { isChecked ->
+                        selectedUserName = if (isChecked) userName else null
+                    },
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+                Text(text = userName, modifier = Modifier.padding(16.dp))
+            }
+        }
+    }
+}
+
+@Composable
 fun PlayScreen2(modifier: Modifier = Modifier
     .fillMaxWidth()
     .heightIn(max = (LocalConfiguration.current.screenHeightDp / 2).dp)
@@ -293,17 +329,22 @@ fun PlayScreen3(modifier: Modifier = Modifier
                 }
             }
         )
-        // Button to start the game and navigate to the DieResultScreen
-        Button(
-            onClick = {
 
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-        ) {
-            Text(text = "Start Game")
+
         }
     }
+
+
+@Composable
+fun StartGameButton() {
+    Button(
+        onClick = {},
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
+    ) {
+        Text(text = "Start Game")
+    }
 }
+
 
