@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         // Title
                         Text(
-                            text = "elcome to the Lucky Dice Game",
+                            text = "Welcome to the Lucky Dice Game",
                             style = TextStyle(
                                 fontSize = 24.sp, // Adjust the font size as needed
                                 fontWeight = FontWeight.Bold
