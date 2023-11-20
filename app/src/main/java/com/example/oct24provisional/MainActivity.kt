@@ -88,41 +88,50 @@ class MainActivity : ComponentActivity() {
                         // Add Spacer if needed
                         Spacer(modifier = Modifier.height(16.dp))
 
+                        ButtonSelect()
 
-                        // Button to navigate to Options
-                        Button(
-                            onClick = {
-                                // Create an Intent to navigate to Options
-                                val intent = Intent(this@MainActivity, Options::class.java)
-                                startActivity(intent)
-                            }
-                        ) {
-                            Text("Go to Options")
-                        }
-                        Spacer(modifier = Modifier.height(16.dp))
-                        // Button to navigate to Play
-                        Button(
-                            onClick = {
-                                // Create an Intent to navigate to Options
-                                val intent = Intent(this@MainActivity,Play::class.java)
-                                startActivity(intent)
-                            }
-                        ) {
-                            Text("Go to Play")
-                        }
-                           // Displays main image on home page
-                           HomeScreen()
+                        // Displays main image on home page
+                        HomeScreen()
 
-                    }
+                    }// End of Column Scope
 
-                }
+                }// End of Surface
             }
-        }
+        }// End of setContent
     }
+}// End of Class
+
+
+@Composable
+fun ButtonSelect(){
+        val context = LocalContext.current
+        Column(){
+
+            // Button to navigate to Options
+            Button(
+                onClick = {
+                    // Create an Intent to navigate to Options
+                    val intent = Intent(context, Options::class.java)
+                    context.startActivity(intent)
+                }
+            ) {
+                Text("Go to Options")
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            // Button to navigate to Play
+            Button(
+                onClick = {
+                    // Create an Intent to navigate to Options
+                    val intent = Intent(context,Play::class.java)
+                    context.startActivity(intent)
+                }
+            ) {
+                Text("Go to Play")
+            }
+
+        }
+
 }
-
-
-
 // Composable to display our main image
 @Composable
 fun HomeScreen() {
