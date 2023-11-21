@@ -92,6 +92,7 @@ import androidx.compose.ui.res.painterResource
 
 
 class Play : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -124,7 +125,7 @@ class Play : ComponentActivity() {
 
                         UserNameSelection2()
                         Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
-                        UserNameSelection3()
+                        UserNameSelection4()
 
 
                         StartGameButton()
@@ -242,7 +243,7 @@ fun UserNameSelection3(modifier: Modifier = Modifier
 }
 @ExperimentalMaterial3Api
 @Composable
-fun UserNameSelection2(onUserNameEntered: (String) -> Unit) {
+fun UserNameSelection4(onUserNameEntered: (String) -> Unit) {
     var userName by remember { mutableStateOf("") }
 
     Column(
