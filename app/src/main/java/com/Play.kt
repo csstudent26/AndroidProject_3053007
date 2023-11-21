@@ -92,6 +92,7 @@ import androidx.compose.ui.res.painterResource
 
 
 class Play : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -122,34 +123,14 @@ class Play : ComponentActivity() {
                         PlayScreen3()
                         Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
 
-                        UserNameSelection2()
+                    //    UserNameSelection2()
                         Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
-                        UserNameSelection3()
+                      //  UserNameSelection4()
 
 
                         StartGameButton()
-                        // Button to navigate to  Home
-                        Button(
-                            onClick = {
-                                // Create an Intent to navigate to Home
-                                val intent = Intent(this@Play, MainActivity::class.java)
-                                startActivity(intent)
-                            }
-                        ) {
-                            Text("Go to Home")
-                        }
-
-                        // Button to navigate to  Options
-                        Button(
-                            onClick = {
-                                // Create an Intent to navigate to Home
-                                val intent = Intent(this@Play, Options::class.java)
-                                startActivity(intent)
-                            }
-                        ) {
-                            Text("Go to Options")
-                        }
-
+                        // Buttons to navigate to  Home and Options inside this Composable
+                        ButtonSelect()
                     }
                     }
 
@@ -242,7 +223,7 @@ fun UserNameSelection3(modifier: Modifier = Modifier
 }
 @ExperimentalMaterial3Api
 @Composable
-fun UserNameSelection2(onUserNameEntered: (String) -> Unit) {
+fun UserNameSelection4(onUserNameEntered: (String) -> Unit) {
     var userName by remember { mutableStateOf("") }
 
     Column(
@@ -357,5 +338,38 @@ fun StartGameButton() {
         Text(text = "Start Game")
     }
 }
+@Composable
+fun ButtonSelect(){
+
+    val context = LocalContext.current
+
+    Column(){
+
+
+        Button(
+            onClick = {
+                // Create an Intent to navigate to Options
+                val intent = Intent(context, Options::class.java)
+                context.startActivity(intent)
+            }
+        ) {
+            Text("Go to Options")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        // Button to navigate to Play
+        Button(
+            onClick = {
+                // Create an Intent to navigate to Options
+                val intent = Intent(context,Play::class.java)
+                context.startActivity(intent)
+            }
+        ) {
+            Text("Go to Play")
+        }
+
+    }
+    }
+
+
 
 
