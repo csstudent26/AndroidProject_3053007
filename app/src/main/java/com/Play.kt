@@ -123,6 +123,9 @@ class Play : ComponentActivity() {
                         Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
 
                         UserNameSelection2()
+                        Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
+                        UserNameSelection3()
+
 
                         StartGameButton()
                         // Button to navigate to  Home
@@ -208,7 +211,7 @@ fun CheckBox(isChecked: Boolean, onCheckedChange: (Boolean) -> Unit) {
     )
 }
 @Composable
-fun UserNameSelection(modifier: Modifier = Modifier
+fun UserNameSelection3(modifier: Modifier = Modifier
     .fillMaxWidth()
 
     ) {
@@ -237,7 +240,36 @@ fun UserNameSelection(modifier: Modifier = Modifier
         }
     }
 }
+@ExperimentalMaterial3Api
+@Composable
+fun UserNameSelection2(onUserNameEntered: (String) -> Unit) {
+    var userName by remember { mutableStateOf("") }
 
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        OutlinedTextField(
+            value = userName,
+            onValueChange = { userName = it },
+            label = { Text("Enter Username") }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                // Validate username, perform checks here
+
+                // Pass the entered username to the callback function
+                onUserNameEntered(userName)
+            }
+        ) {
+            Text("Confirm")
+        }
+    }
+}
 
 // Composable to choose User Name
 @Composable
