@@ -86,10 +86,8 @@ class MainActivity : ComponentActivity() {
                         Spacer(modifier = Modifier.height(16.dp))
                         AnimatedText()
                         // Add Spacer if needed
-                        Spacer(modifier = Modifier.height(16.dp))
-
                         ButtonSelect()
-
+                        Spacer(modifier = Modifier.height(16.dp))
                         // Displays main image on home page
                         HomeScreen()
 
@@ -105,7 +103,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ButtonSelect(){
         val context = LocalContext.current
-        Column(){
+                // Modifier must be commented out as it will take too much space
+        Column( //modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally){
 
             // Button to navigate to Options
             Button(
