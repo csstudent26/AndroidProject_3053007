@@ -133,6 +133,7 @@ class Play : ComponentActivity() {
 
 
                         StartGameButton()
+
                         // Buttons to navigate to  Home and Options inside this Composable
                         ButtonSelect()
                     }
@@ -347,7 +348,9 @@ fun ButtonSelect(){
 
     val context = LocalContext.current
 
-    Column(){
+    // Column seetings allow the Alignment of the contents (Buttons)
+    Column(verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally){
 
 
         Button(
