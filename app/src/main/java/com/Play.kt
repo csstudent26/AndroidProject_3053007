@@ -79,6 +79,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import com.example.oct24provisional.MainActivity
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
@@ -382,6 +383,13 @@ fun DropdownMenu5(
     items: List<String>,
     onItemSelected:(String) -> Unit
 ){
+    var expanded by remember{
+        mutableStateOf(false)
+    }
+    Box{
+        Text(text = "Select",
+              modifier = Modifier.clickable{ expanded = !expanded}   )
+    }
 
 
 }
