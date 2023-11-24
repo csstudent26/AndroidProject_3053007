@@ -118,7 +118,9 @@ class Play : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    Column(
+                    PlayScreenCX() // Replace the existing content with PlayScreenCX
+                }
+                   /* Column(
                         modifier = Modifier
                             .padding(16.dp)
                             .verticalScroll(rememberScrollState())
@@ -147,18 +149,57 @@ class Play : ComponentActivity() {
                         // Buttons to navigate to  Home and Options inside this Composable
                         ButtonSelect()
                     }
-                    }
+                    }*/
 
 
                 }
-            }
-        }
-    }
+            }//End of setContent
+        }//End of Create
+    }//End of Class
 
 @Composable
-fun PlayScreen() {
+fun PlayScreenCX() {
     //Creating a Boolean to control screen(if GameInProgress we will have a 'free' screen)
-    var isGameInProgress by remember { mutableStateOf(false) }
+    var isStartAction by remember { mutableStateOf(false) }
+
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        if (isStartAction) {
+            // Show StartAction() when in progress
+                StartAction()
+        } else
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+
+
+
+            ) {
+                //Welcoming Text
+                Text(
+                    text = "Ready To Play ?", style = TextStyle(
+                        fontSize = 28.sp, fontWeight = FontWeight.Bold
+                    ), modifier = Modifier.padding(16.dp)
+                )
+
+
+                //Composable to display animated Giff
+                PlayScreen3()
+
+                Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
+
+
+                GameScreen2()
+
+                // Buttons to navigate to  Home and Options inside this Composable
+                ButtonSelect()
+            }
+    }
 
 
 }
@@ -615,3 +656,7 @@ fun GameInProgress(context: Context) {
     }
 }
 
+@Composable
+fun StartAction(){
+
+}
