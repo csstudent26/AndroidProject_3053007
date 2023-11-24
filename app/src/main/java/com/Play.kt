@@ -402,7 +402,8 @@ fun ImageForDice(value: Int) {
         )
     }
 }
-
+//Composable for Dealer(House) Throw
+@Composable
 fun throwForHouse(): Int {
     val randomNumber = (1..6).random() // Simulate a random number between 1 and 6
     println("House throws: $randomNumber") // Print the result to the screen
