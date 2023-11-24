@@ -93,8 +93,8 @@ import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-
-
+import com.example.myapp.R
+import com.example.oct24provisional.R
 
 
 class Play : ComponentActivity() {
@@ -378,16 +378,15 @@ fun ImageForDice(value: Int) {
 
     //We make a List for our images( to display as results)
     val diceImages = listOf(
-        val diceImages = listOf(
-            R.drawable.dice_one_,
-            R.drawable.dice_two_,
-            R.drawable.dice_three_,
-            R.drawable.dice_four_,
-            R.drawable.dice_5_,
-            R.drawable.dice_six_
+        R.drawable.dice_one_,
+        R.drawable.dice_two_,
+        R.drawable.dice_three_,
+        R.drawable.dice_four_,
+        R.drawable.dice_5_,
+        R.drawable.dice_six_
     )
 
-    )
+
     //Variable to store the corresponding image
     val diceImage: Painter? = if (value in 1..6) {
         painterResource(diceImages[value - 1])
