@@ -79,11 +79,14 @@ import androidx.compose.ui.platform.LocalConfiguration
 import com.example.oct24provisional.MainActivity
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 
 
 import androidx.compose.ui.graphics.painter.Painter
@@ -131,7 +134,7 @@ class Play : ComponentActivity() {
 
                        // UserNameSelection4()
 
-
+                        DropdownMenu5(items = listOf(" Option 01","Option 02", "Option 03"), onItemSelected = { })
 
                         StartGameButton()
 
@@ -382,17 +385,95 @@ fun DropdownMenu5(
 
     items: List<String>,
     onItemSelected:(String) -> Unit
-){
-    var expanded by remember{
+) {
+    var expanded by remember {
         mutableStateOf(false)
     }
-    Box{
+    Box {
         Text(text = "Select",
-              modifier = Modifier.clickable{ expanded = !expanded}   )
+
+            modifier = Modifier.clickable { expanded = !expanded })
+
+        if (expanded) {
+            Column(
+                modifier = Modifier
+                    .background(Color.Blue)
+                    .border(1.dp, Color.LightGray)
+                    .width(200.dp)
+            ) {
+                items.forEach { item ->
+                    Box(
+                        modifier = Modifier
+                            .clickable {
+                                onItemSelected(item)
+                                expanded = false // Close the menu after selection
+                            }
+                            .padding(8.dp)
+                    ) {
+                        Text(text = item)
+                    }
+                }
+            }
+        }
     }
+ }
 
+// Composable to give user a choice of Log In or Just  as Guest
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun GameScreen() {
 
+    //Variables to store 'Player Name' value
+    var playerName by remember { mutableStateOf("") }
+    var isLoggingIn by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        if (isLoggingIn) {
+            TextField(
+                value = playerName,
+                onValueChange = { playerName = it },
+                label = { Text("Enter your name") },
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = { isLoggingIn = false })
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = { isLoggingIn = false }) {
+                Text("Play as Guest")
+            }
+        } else {
+            Text("Choose a name to play:")
+            Spacer(modifier = Modifier.height(8.dp))
+            // List of predefined names
+            listOf("Player 1", "Player 2", "Player 3").forEach { name ->
+
+                Button(
+                    onClick = {
+
+                        playerName = name
+                        // Start the game with selected name
+                        // Will Put the logic here to initiate the game with the chosen name
+                    },
+                    modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+                    //Setting the name on the
+                    Text(name)
+                }
+            }
+            //Spacer Between Buttons
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = { isLoggingIn = true }) {
+                Text("Log in with a custom name")
+            }
+        }
+    }
 }
+
 
 
 
