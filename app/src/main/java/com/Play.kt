@@ -85,8 +85,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 
 
 import androidx.compose.ui.graphics.painter.Painter
@@ -111,10 +113,13 @@ class Play : ComponentActivity() {
                 ) {
                     Column(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.Top,
+                            .padding(16.dp)
+                            .verticalScroll(rememberScrollState())
+                            .fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally
+
+
+
                     ) {
                         Text(
                             text = "Ready To Play ?", style = TextStyle(
@@ -125,16 +130,11 @@ class Play : ComponentActivity() {
 
                         //Composable to display animated Giff
                         PlayScreen3()
+
                         Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
 
-                    //    UserNameSelection2()
-                        Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
 
-                      //  UserNameSelection4()
-
-                       // UserNameSelection4()
-
-                        DropdownMenu5(items = listOf(" Option 01","Option 02", "Option 03"), onItemSelected = { })
+                        GameScreen()
 
                         StartGameButton()
 
@@ -200,109 +200,8 @@ fun CheckBox(isChecked: Boolean, onCheckedChange: (Boolean) -> Unit) {
         onCheckedChange = onCheckedChange
     )
 }
-@Composable
-fun UserNameSelection3(modifier: Modifier = Modifier
-    .fillMaxWidth()
-
-    ) {
-    // List of available usernames
-    val userNames = listOf("Alice", "Bob", "Charlie")
-
-    // State to track selected usernames
-    var selectedUserNames by remember { mutableStateOf(setOf<String>()) }
-
-    // Display the list of usernames with checkboxes
-    Column {
-        userNames.forEach { userName ->
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                CheckBox(
-                    isChecked = selectedUserNames.contains(userName),
-                    onCheckedChange = { isChecked ->
-                        if (isChecked) {
-                            selectedUserNames = selectedUserNames + userName
-                        } else {
-                            selectedUserNames = selectedUserNames - userName
-                        }
-                    }
-                )
-                Text(text = userName, modifier = Modifier.padding(16.dp))
-            }
-        }
-    }
-}
-@ExperimentalMaterial3Api
-@Composable
-fun UserNameSelection4(onUserNameEntered: (String) -> Unit) {
-    var userName by remember { mutableStateOf("") }
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        OutlinedTextField(
-            value = userName,
-            onValueChange = { userName = it },
-            label = { Text("Enter Username") }
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = {
-                // Validate username, perform checks here
-
-                // Pass the entered username to the callback function
-                onUserNameEntered(userName)
-            }
-        ) {
-            Text("Confirm")
-        }
-    }
-}
-
-// Composable to choose User Name
-@Composable
-fun UserNameSelection2(modifier: Modifier = Modifier.fillMaxWidth()) {
-    // List of available usernames
-    val userNames = listOf("Aviator", "Hope", "Gambler")
 
 
-    // State to track the selected username
-    var selectedUserName by remember { mutableStateOf<String?>(null) }
-
-    // Display the list of usernames with checkboxes
-    Column {
-
-        // Text prompting the user to choose a username
-
-        Text(
-            text = "Please choose a User Name",
-            style = MaterialTheme.typography.bodyLarge,color = Color.Red,fontSize = 24.sp,
-            modifier = Modifier.padding(8.dp, 0.dp, 0.dp, 16.dp) // Adjust padding as needed
-        )
-        // List of usernames with checkboxes
-        userNames.forEach { userName ->
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(
-                    checked = selectedUserName == userName,
-                    onCheckedChange = { isChecked ->
-                        selectedUserName = if (isChecked) userName else null
-                    },
-                    modifier = Modifier.padding(start = 16.dp)
-                )
-               /* Text(text = userName, modifier = Modifier.padding(16.dp))
-                    .style(MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp)) */
-                Text(
-                    text = userName,
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp)
-                )
-
-            }
-        }
-    }
-}
 
 
 //Composable to create and display Giff
