@@ -378,12 +378,15 @@ fun ImageForDice(value: Int) {
 
     //We make a List for our images( to display as results)
     val diceImages = listOf(
-        R.drawable.,
-        R.drawable.,
-        R.drawable.,
-        R.drawable.,
-        R.drawable.,
-        R.drawable.
+        val diceImages = listOf(
+            R.drawable.dice_one_,
+            R.drawable.dice_two_,
+            R.drawable.dice_three_,
+            R.drawable.dice_four_,
+            R.drawable.dice_5_,
+            R.drawable.dice_six_
+    )
+
     )
     //Variable to store the corresponding image
     val diceImage: Painter? = if (value in 1..6) {
@@ -401,4 +404,8 @@ fun ImageForDice(value: Int) {
     }
 }
 
-
+fun throwForHouse(): Int {
+    val randomNumber = (1..6).random() // Simulate a random number between 1 and 6
+    println("House throws: $randomNumber") // Print the result to the screen
+    return randomNumber
+}
