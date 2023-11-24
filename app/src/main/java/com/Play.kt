@@ -98,7 +98,7 @@ import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import com.example.myapp.R
+
 import com.example.oct24provisional.R
 import kotlin.math.sqrt
 
@@ -141,7 +141,7 @@ class Play : ComponentActivity() {
                         Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
 
 
-                        GameScreen()
+                        GameScreen2()
 
                         StartGameButton()
 
@@ -156,6 +156,78 @@ class Play : ComponentActivity() {
         }
     }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun GameScreen2() {
+    var playerName by remember { mutableStateOf("") }
+    var isLoggingIn by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        if (isLoggingIn) {
+            var enteredName by remember { mutableStateOf("") }
+
+            TextField(
+                value = enteredName,
+                onValueChange = { enteredName = it },
+                label = { Text("Enter your name") },
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = {
+                    if (enteredName.isNotBlank()) {
+                        playerName = enteredName
+                        // Trigger the game start with entered name
+                        // Call a function here to start the game with playerName
+                        // onGameStart(playerName)
+                    }
+                    isLoggingIn = false
+                })
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(onClick = {
+                if (enteredName.isNotBlank()) {
+                    playerName = enteredName
+                    // Trigger the game start with entered name
+                    // Call a function here to start the game with playerName
+                    // onGameStart(playerName), or some such function
+                }
+                isLoggingIn = false
+            }) {
+                Text("Submit")
+            }
+        } else {
+            Text("Choose a name to play:")
+            Spacer(modifier = Modifier.height(8.dp))
+
+            //List of Names (predefined).Can always be changed
+            listOf("Player 1", "Player 2", "Player 3").forEach { name ->
+                Button(
+                    onClick = {
+                        playerName = name
+                        // Start the game with the selected name
+                        // Call a function here to start the game with playerName
+                        // onGameStart(playerName), or whichever function starts ganme
+                    },
+                    modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+                    Text(name)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            //Log in Button(needs to be already in data base when program finished)
+            // Temporally(when program is been developed) need not be in data base
+            Button(onClick = { isLoggingIn = true }) {
+                Text("Log in with a custom name")
+            }
+        }
+    }
+}
 
 
 
@@ -417,7 +489,7 @@ fun throwForHouse(): Int {
     return randomNumber
 }
 
-@Composable
+//@Composable
 fun EstablishUserThrow(context: Context): Int {
     var userThrow = 0
 
