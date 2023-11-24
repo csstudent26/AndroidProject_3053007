@@ -373,6 +373,32 @@ fun GameScreen() {
     }
 }
 
+@Composable
+fun ImageForDice(value: Int) {
 
+    //We make a List for our images( to display as results)
+    val diceImages = listOf(
+        R.drawable.,
+        R.drawable.,
+        R.drawable.,
+        R.drawable.,
+        R.drawable.,
+        R.drawable.
+    )
+    //Variable to store the corresponding image
+    val diceImage: Painter? = if (value in 1..6) {
+        painterResource(diceImages[value - 1])
+    } else null
+
+
+    //Aligning Image and Throw
+    diceImage?.let {
+        Image(
+            painter = it,
+            contentDescription = "Dice Image",
+            modifier = Modifier.size(100.dp)
+        )
+    }
+}
 
 
