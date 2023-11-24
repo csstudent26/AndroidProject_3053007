@@ -225,6 +225,15 @@ fun GameScreen2() {
             Button(onClick = { isLoggingIn = true }) {
                 Text("Log in with a custom name")
             }
+
+            if (playerName.isNotEmpty()) {
+                // Display the WelcomeScreen if playerName is not empty
+                WelcomeScreen(playerName = playerName, chosenOption = "Some Option") {
+                    // This lambda is called when the player is ready to play
+                    // Add logic here to start the game
+                    // For example: navigate to the game screen or trigger game start function
+                }
+            }
         }
     }
 }
