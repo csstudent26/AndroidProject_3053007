@@ -111,6 +111,7 @@ class Play : ComponentActivity() {
         // Create a NavController
 
 
+
         setContent {
             OCT24ProvisionalTheme {
                 // A surface container using the 'background' color from the theme
@@ -143,8 +144,6 @@ class Play : ComponentActivity() {
 
                         GameScreen2()
 
-                        StartGameButton()
-
                         // Buttons to navigate to  Home and Options inside this Composable
                         ButtonSelect()
                     }
@@ -156,6 +155,13 @@ class Play : ComponentActivity() {
         }
     }
 
+@Composable
+fun PlayScreen() {
+    //Creating a Boolean to control screen(if GameInProgress we will have a 'free' screen)
+    var isGameInProgress by remember { mutableStateOf(false) }
+
+
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen2() {
@@ -238,6 +244,30 @@ fun GameScreen2() {
     }
 }
 
+@Composable
+fun WelcomeScreen(playerName: String, chosenOption: String, onReadyToPlay: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Welcome, $playerName!", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.height(16.dp))
+        Text("You chose: $chosenOption", fontSize = 18.sp)
+        Spacer(modifier = Modifier.height(32.dp))
+        Text("Are you ready to play?", fontSize = 20.sp)
+
+        // Button to start the game
+        Button(
+            onClick = { onReadyToPlay() },
+            modifier = Modifier.padding(vertical = 16.dp)
+        ) {
+            Text("Let's Play!")
+        }
+    }
+}
 
 
 
