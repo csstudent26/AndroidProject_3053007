@@ -1,6 +1,11 @@
 package com
 
+import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.widget.Toast
 
 import androidx.compose.runtime.remember
@@ -95,6 +100,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import com.example.myapp.R
 import com.example.oct24provisional.R
+import kotlin.math.sqrt
 
 
 class Play : ComponentActivity() {
@@ -121,6 +127,7 @@ class Play : ComponentActivity() {
 
 
                     ) {
+                        //Welcoming Text
                         Text(
                             text = "Ready To Play ?", style = TextStyle(
                                 fontSize = 28.sp, fontWeight = FontWeight.Bold
@@ -409,3 +416,91 @@ fun throwForHouse(): Int {
     println("House throws: $randomNumber") // Print the result to the screen
     return randomNumber
 }
+
+@Composable
+fun EstablishUserThrow(context: Context): Int {
+    var userThrow = 0
+
+    val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+
+    val sensorListener = object : SensorEventListener {
+        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+            // Not used
+        }
+
+        override fun onSensorChanged(event: SensorEvent?) {
+            if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
+
+                val x = event.values[0]
+                val y = event.values[1]
+                val z = event.values[2]
+
+                // Calculate magnitude of acceleration
+                val acceleration = sqrt(x * x + y * y + z * z)
+
+                // Set a threshold value for movement detection
+                val threshold = 10 // Adjust this threshold if we want or as needed
+
+                // Explaining the Condition
+                if (acceleration > threshold) {
+                    // Movement detected, simulate dice throw
+                    userThrow = (1..6).random() // Generate a random number between 1 and 6
+
+                    //We must turn off the listener device when finished
+                    sensorManager.unregisterListener(this) // Stop listening for further sensor changes
+                }
+            }
+        }
+    }
+
+    sensorManager.registerListener(sensorListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL)
+
+    return userThrow
+}
+@Composable
+fun GameInProgress(context: Context) {
+    //Variable to store House Throw
+    var dealerThrow by remember { mutableStateOf(0) }
+    //Variable  to store User Throw
+    var userThrow by remember { mutableStateOf(0) }
+    //Boolean for User Throw(establish if user Ready)
+    var readyForUserThrow by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        // Display dealer's throw
+        Text("Dealer's throw:")
+        ImageForDice(dealerThrow)
+
+        // Simulate dealer's throw when user is ready
+        if (readyForUserThrow && dealerThrow == 0) {
+            dealerThrow = throwForHouse() // Simulate dealer's throw
+            ImageForDice(dealerThrow)
+        }
+
+        // Ask user if they are ready
+        if (!readyForUserThrow) {
+            Text("Are you ready?")
+            Button(onClick = { readyForUserThrow = true }) {
+                Text("Yes")
+            }
+        }
+
+        // Display user's throw after they're ready
+        if (readyForUserThrow) {
+            Text("Your throw:")
+            Button(onClick = { userThrow = EstablishUserThrow(context) }) {
+                Text("Throw Dice")
+            }
+            //Display User Throw Dice
+            ImageForDice(userThrow)
+        }
+    }
+}
+
