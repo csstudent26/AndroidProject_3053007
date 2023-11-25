@@ -100,6 +100,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 
 import com.example.oct24provisional.R
+
 import kotlin.math.sqrt
 
 
@@ -108,7 +109,7 @@ class Play : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Create a NavController
+
 
 
 
@@ -120,36 +121,6 @@ class Play : ComponentActivity() {
                 ) {
                     PlayScreenCX() // Replace the existing content with PlayScreenCX
                 }
-                   /* Column(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .verticalScroll(rememberScrollState())
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-
-
-
-                    ) {
-                        //Welcoming Text
-                        Text(
-                            text = "Ready To Play ?", style = TextStyle(
-                                fontSize = 28.sp, fontWeight = FontWeight.Bold
-                            ), modifier = Modifier.padding(16.dp)
-                        )
-
-
-                        //Composable to display animated Giff
-                        PlayScreen3()
-
-                        Spacer(modifier = Modifier.height(30.dp)) // Adjust height as needed
-
-
-                        GameScreen2()
-
-                        // Buttons to navigate to  Home and Options inside this Composable
-                        ButtonSelect()
-                    }
-                    }*/
 
 
                 }
@@ -166,6 +137,12 @@ fun PlayScreenCX() {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
+        // Using the WelcomeScreen to trigger StartAction
+        WelcomeScreen(playerName = "John", chosenOption = "Option A") {
+            // This lambda is called when the player is ready to play
+            // Implement the game start logic here
+            isStartAction = true // Set the flag to trigger StartAction
+        }
         if (isStartAction) {
             // Show StartAction() when in progress
                 StartAction()
@@ -208,6 +185,8 @@ fun PlayScreenCX() {
 fun GameScreen2() {
     var playerName by remember { mutableStateOf("") }
     var isLoggingIn by remember { mutableStateOf(false) }
+    var gameStarted by remember { mutableStateOf(false) } // New flag to track game start
+
 
     Column(
         modifier = Modifier
@@ -279,33 +258,57 @@ fun GameScreen2() {
                     // This lambda is called when the player is ready to play
                     // Add logic here to start the game
                     // For example: navigate to the game screen or trigger game start function
+                    gameStarted = true
                 }
+            }
+            // Conditionally display StartAction based on gameStarted flag
+            if (gameStarted) {
+                StartAction()
             }
         }
     }
 }
 
 @Composable
-fun WelcomeScreen(playerName: String, chosenOption: String, onReadyToPlay: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text("Welcome, $playerName!", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.height(16.dp))
-        Text("You chose: $chosenOption", fontSize = 18.sp)
-        Spacer(modifier = Modifier.height(32.dp))
-        Text("Are you ready to play?", fontSize = 20.sp)
+fun WelcomeScreen(playerName: String, chosenOption: String , onReadyToPlay: () -> Unit // Additional callback parameter
+,) {
 
-        // Button to start the game
-        Button(
-            onClick = { onReadyToPlay() },
-            modifier = Modifier.padding(vertical = 16.dp)
+    val context = LocalContext.current // Obtain the context
+
+    var gameStarted by remember { mutableStateOf(false) }
+
+    if (!gameStarted) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Text("Let's Play!")
+            Text("Welcome, $playerName!", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("You chose: $chosenOption", fontSize = 18.sp)
+            Spacer(modifier = Modifier.height(32.dp))
+            Text("Are you ready to play?", fontSize = 20.sp)
+
+            // Button to start the game
+            Button(
+                onClick = {
+                    // Trigger the game start here
+                    // For example, navigate to the game screen or start the game logic
+                    // For simplicity, let's navigate to the Play screen
+                    // val intent = Intent(context, Play::class.java)
+                    // context.startActivity(intent0)
+                    onReadyToPlay()
+                     // Notify the activity to start the game
+                },
+                modifier = Modifier.padding(vertical = 16.dp)
+            ) {
+                Text("Let's Play!")
+            }
+
+
         }
     }
 }
@@ -562,7 +565,7 @@ fun ImageForDice(value: Int) {
     }
 }
 //Composable for Dealer(House) Throw
-@Composable
+//@Composable
 fun throwForHouse(): Int {
     val randomNumber = (1..6).random() // Simulate a random number between 1 and 6
     println("House throws: $randomNumber") // Print the result to the screen
@@ -570,7 +573,7 @@ fun throwForHouse(): Int {
 }
 
 //@Composable
-fun EstablishUserThrow(context: Context): Int {
+fun establishUserThrow(context: Context): Int {
     var userThrow = 0
 
     val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -647,7 +650,7 @@ fun GameInProgress(context: Context) {
         // Display user's throw after they're ready
         if (readyForUserThrow) {
             Text("Your throw:")
-            Button(onClick = { userThrow = EstablishUserThrow(context) }) {
+            Button(onClick = { userThrow = establishUserThrow(context) }) {
                 Text("Throw Dice")
             }
             //Display User Throw Dice
@@ -658,5 +661,47 @@ fun GameInProgress(context: Context) {
 
 @Composable
 fun StartAction(){
+
+    val backgroundColor = Color.LightGray
+    var houseThrow by remember { mutableStateOf(0) } // State to hold the house's throw result
+    var userThrow by remember { mutableStateOf(0) } // State to hold the user's throw result
+    var context = LocalContext.current
+
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = backgroundColor
+    ) {
+        // Your content for the dice game can go here
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "House's Throw: $houseThrow",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(16.dp)
+            )
+            Text(
+                text = "User's Throw: $userThrow",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(16.dp)
+            )
+
+            Button(
+                onClick = {
+
+                    // Simulate throws for both house and user
+                    houseThrow = throwForHouse()
+                    userThrow = establishUserThrow(context)
+                },
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text("Throw Dice")
+            }
+        }
+    }
 
 }
