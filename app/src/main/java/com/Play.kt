@@ -262,9 +262,9 @@ fun GameScreen2() {
                 }
             }
             // Conditionally display StartAction based on gameStarted flag
-            if (gameStarted) {
+          //  if (gameStarted) {
                 StartAction()
-            }
+          //  }
         }
     }
 }
@@ -479,61 +479,6 @@ fun DropdownMenu5(
     }
  }
 
-// Composable to give user a choice of Log In or Just  as Guest
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun GameScreen() {
-
-    //Variables to store 'Player Name' value
-    var playerName by remember { mutableStateOf("") }
-    var isLoggingIn by remember { mutableStateOf(false) }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        if (isLoggingIn) {
-            TextField(
-                value = playerName,
-                onValueChange = { playerName = it },
-                label = { Text("Enter your name") },
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = { isLoggingIn = false })
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { isLoggingIn = false }) {
-                Text("Play as Guest")
-            }
-        } else {
-            Text("Choose a name to play:")
-            Spacer(modifier = Modifier.height(8.dp))
-            // List of predefined names
-            listOf("Player 1", "Player 2", "Player 3").forEach { name ->
-
-                Button(
-                    onClick = {
-
-                        playerName = name
-                        // Start the game with selected name
-                        // Will Put the logic here to initiate the game with the chosen name
-                    },
-                    modifier = Modifier.padding(vertical = 8.dp)
-                ) {
-                    //Setting the name on the
-                    Text(name)
-                }
-            }
-            //Spacer Between Buttons
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { isLoggingIn = true }) {
-                Text("Log in with a custom name")
-            }
-        }
-    }
-}
 
 @Composable
 fun ImageForDice(value: Int) {
