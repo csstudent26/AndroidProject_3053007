@@ -271,7 +271,7 @@ fun GameScreen2X() {
 }
 
 @Composable
-fun WelcomeScreen(playerName: String, chosenOption: String , onReadyToPlay: () -> Unit // Additional callback parameter
+fun WelcomeScreenRes(playerName: String, chosenOption: String , onReadyToPlay: () -> Unit // Additional callback parameter
 ,) {
 
     val context = LocalContext.current // Obtain the context
@@ -740,6 +740,57 @@ fun GameScreen2() {
                     }
                 }
             }
+        }
+    }
+}
+@Composable
+fun WelcomeScreen(
+    playerName: String,
+    chosenOption: String,
+    onReadyToPlay: () -> Unit,
+    onLetsPlayClicked: () -> Unit,// Additional callback parameter
+) {
+
+    val context = LocalContext.current // Obtain the context
+    var shouldRunLooking by remember { mutableStateOf(false) } // Condition to run Looking()
+
+
+    var gameStarted by remember { mutableStateOf(false) }
+
+    if (!gameStarted) {
+
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text("Welcome, $playerName!", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("You chose: $chosenOption", fontSize = 18.sp)
+            Spacer(modifier = Modifier.height(32.dp))
+            Text("Are you ready to play?", fontSize = 20.sp)
+
+            // Button to start the game
+            Button(
+                onClick = {
+                    // Trigger the game start here
+                    // For example, navigate to the game screen or start the game logic
+                    // For simplicity, let's navigate to the Play screen
+                    // val intent = Intent(context, Play::class.java)
+                    // context.startActivity(intent0)
+                    onReadyToPlay()
+
+                    // Notify the activity to start the game
+                },
+                modifier = Modifier.padding(vertical = 16.dp)
+            ) {
+                Text("Let's Play!")
+            }
+
+
         }
     }
 }
