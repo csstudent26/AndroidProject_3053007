@@ -98,10 +98,12 @@ import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 
 import com.example.oct24provisional.R
 
 import kotlin.math.sqrt
+import kotlin.random.Random
 
 
 class Play : ComponentActivity() {
@@ -792,5 +794,128 @@ fun WelcomeScreen(
 
 
         }
+    }
+}
+//Composable added from auxillary(Nov02) Test Project
+@Composable
+fun UserDiceThrows() {
+    var userDiceValue1 by remember { mutableStateOf(1) }
+    var userDiceValue2 by remember { mutableStateOf(1) }
+    var userScore by remember { mutableStateOf(0) }
+    var isScoreFinal by remember { mutableStateOf(false) } // Flag to indicate if the score is final
+
+    var dealerDiceValue1 by remember { mutableStateOf(1) }
+    var dealerDiceValue2 by remember { mutableStateOf(1) }
+    var dealerScore by remember { mutableStateOf(0) }
+    var isDealerScoreFinal by remember { mutableStateOf(false) } // Flag to indicate if the score is final
+
+
+    // Function to determine the winner based on scores
+    fun determineWinner(): String {
+        return when {
+            userScore > dealerScore -> "You Win!"
+            dealerScore > userScore -> "Dealer Wins!"
+            else -> "It's a Tie!"
+        }
+    }
+
+    // Function to handle user's dice throws//End of NCode!
+    val onUserDiceThrown: () -> Unit = {
+        if (!isScoreFinal) {
+            userDiceValue1 = (1..6).random()
+            userDiceValue2 = (1..6).random()
+            userScore = userDiceValue1 + userDiceValue2
+
+            // Set the flag to indicate the score is final after calculating it
+            isScoreFinal = true
+
+            // Simulate dealer's dice throws
+            val random = Random.Default
+            dealerDiceValue1 = random.nextInt(1, 7)
+            dealerDiceValue2 = random.nextInt(1, 7)
+            dealerScore = dealerDiceValue1 + dealerDiceValue2
+            isDealerScoreFinal = true
+        }
+    }
+
+// Composable to detect movement and trigger dice throw for the user
+
+    DiceThrowOnMovement(onDiceThrown = onUserDiceThrown)
+
+
+    // UI elements for displaying user's dice values and score
+    Column(
+        modifier = Modifier.fillMaxSize()
+            // verticalArrangement = Arrangement.Center,
+            // horizontalAlignment = Alignment.CenterHorizontally
+            .background(color = androidx.compose.ui.graphics.Color.Green) // Setting the light green background
+            .border(1.dp, androidx.compose.ui.graphics.Color.Red) // Applying a red border
+    ) {
+        // Prompt for the user to roll the dice
+        Text("Roll Die Please!", fontSize = 24.sp,)
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Column(modifier = Modifier.fillMaxSize()) {
+            // User's section
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        ImageForDice(userDiceValue1)
+                        Spacer(modifier = Modifier.width(16.dp))
+                        ImageForDice(userDiceValue2)
+                    }
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Text(
+                        "Your Score: $userScore",
+                        fontSize = 24.sp
+                    )
+                }
+            }
+
+            // Dealer's section
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        ImageForDice(dealerDiceValue1)
+                        Spacer(modifier = Modifier.width(16.dp))
+                        ImageForDice(dealerDiceValue2)
+                    }
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Text(
+                        "Dealer's Score: $dealerScore",
+                        fontSize = 24.sp
+                    )
+
+                    val winner = determineWinner()
+                    // Print the winner using a suitable method (e.g., Text composable, AlertDialog, Toast)
+                    Text(
+                        text = winner,
+                        fontSize = 24.sp,
+                        color = androidx.compose.ui.graphics.Color.Red, // Setting the text color to red
+                        textAlign = TextAlign.Center, // Centering the text horizontally
+                        modifier = Modifier.fillMaxWidth() // Fill the width of the parent
+                    )
+                }
+            }
+        }
+
     }
 }
