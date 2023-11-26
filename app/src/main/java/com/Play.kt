@@ -97,8 +97,10 @@ import androidx.compose.foundation.verticalScroll
 
 
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.Lifecycle
 
 import com.example.oct24provisional.R
 
@@ -917,5 +919,61 @@ fun UserDiceThrows() {
             }
         }
 
+    }
+}
+//Composable to Detect Movement From Auxillary Project. ( almost exact same as existing Composable to detect movement
+@Composable
+fun DiceThrowOnMovement(onDiceThrown: () -> Unit) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val sensorManager =
+        remember { context.getSystemService(Context.SENSOR_SERVICE) as SensorManager }
+    val accelerometer = remember { sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) }
+
+    val sensorListener = remember {
+        object : SensorEventListener {
+            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+                // Not used
+            }
+
+            override fun onSensorChanged(event: SensorEvent?) {
+                if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
+                    val x = event.values[0]
+                    val y = event.values[1]
+                    val z = event.values[2]
+
+                    // Calculate magnitude of acceleration
+                    val acceleration = sqrt(x * x + y * y + z * z)
+
+                    // Set a threshold value for movement detection
+                    val threshold = 10 // Adjust this threshold as needed
+
+                    if (acceleration > threshold) {
+                        // Movement detected, trigger the action (simulate dice throw)
+                        onDiceThrown.invoke()
+                    }
+                }
+            }
+        }
+    }
+
+    // Register the sensor listener when the composable is active
+    androidx.compose.runtime.SideEffect {
+        sensorManager.registerListener(
+            sensorListener,
+            accelerometer,
+            SensorManager.SENSOR_DELAY_NORMAL
+        )
+    }
+
+    // Unregister the sensor listener when the composable is removed or inactive
+    androidx.compose.runtime.SideEffect {
+        val lifecycleObserver = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                sensorManager.unregisterListener(sensorListener)
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
     }
 }
