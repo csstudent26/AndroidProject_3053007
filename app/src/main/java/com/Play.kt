@@ -119,7 +119,8 @@ class Play : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    PlayScreenCX() // Replace the existing content with PlayScreenCX
+                  //  PlayScreenCX() // Replace the existing content with PlayScreenCX
+                    GameScreen2()
                 }
 
 
@@ -182,7 +183,7 @@ fun PlayScreenCX() {
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GameScreen2() {
+fun GameScreen2X() {
     var playerName by remember { mutableStateOf("") }
     var isLoggingIn by remember { mutableStateOf(false) }
     var gameStarted by remember { mutableStateOf(false) } // New flag to track game start
@@ -649,4 +650,96 @@ fun StartAction(){
         }
     }
 
+}
+//Adding an additional for the main method. This is an Important Start Composable(Tested inExp Prog)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun GameScreen2() {
+    var playerName by remember { mutableStateOf("") }
+    var isLoggingIn by remember { mutableStateOf(false) }
+    var shouldRunLooking by remember { mutableStateOf(false) } // Condition to run Looking()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        if (shouldRunLooking) {
+            //  DiceGameVG()
+            UserDiceThrows()
+        } else {
+            if (isLoggingIn) {
+                var enteredName by remember { mutableStateOf("") }
+
+                TextField(
+                    value = enteredName,
+                    onValueChange = { enteredName = it },
+                    label = { Text("Enter your name") },
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
+                    keyboardActions = KeyboardActions(onDone = {
+                        if (enteredName.isNotBlank()) {
+                            playerName = enteredName
+                            // Trigger the game start with entered name
+                            // Call a function here to start the game with playerName
+                            // onGameStart(playerName)
+                        }
+                        isLoggingIn = false
+                    })
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(onClick = {
+                    if (enteredName.isNotBlank()) {
+                        playerName = enteredName
+                        // Trigger the game start with entered name
+                        // Call a function here to start the game with playerName
+                        // onGameStart(playerName), or some such function
+                    }
+                    isLoggingIn = false
+                }) {
+                    Text("Submit")
+                }
+            } else {
+                Text("Choose a name to play:")
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // List of Names (predefined). Can always be changed
+                listOf("Player 1", "Player 2", "Player 3").forEach { name ->
+                    Button(
+                        onClick = {
+                            playerName = name
+                            // Start the game with the selected name
+                            // Call a function here to start the game with playerName
+                            // onGameStart(playerName), or whichever function starts game
+                        },
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    ) {
+                        Text(name)
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+                // Log in Button (needs to be already in the database when the program is finished)
+                // Temporarily (when the program is being developed) need not be in the database
+                Button(onClick = { isLoggingIn = true }) {
+                    Text("Log in with a custom name")
+                }
+
+                if (playerName.isNotEmpty()) {
+                    // Display the WelcomeScreen if playerName is not empty
+                    WelcomeScreen(
+                        playerName = playerName,
+                        chosenOption = " Some Option",
+                        onReadyToPlay = { shouldRunLooking = true }
+                    ) {
+                        // This lambda is called when the player is ready to play
+                        // Add logic here to start the game
+                        // For example: navigate to the game screen or trigger game start function
+                    }
+                }
+            }
+        }
+    }
 }
