@@ -4,3 +4,7 @@ For the Project Comments can be Added Here by all Collabrators. Please Include D
 	Name:   Rory O' Donoghue
         Theme:  changing the 'Gradle Version'. As there were problems with 'Sync', I have changed the Gradle Version to 7.3.1 
 	This is only a   Temporary Measure. But it seems to deal with the 'Sync' issues.  I shall look at the issues causing the 'Sync' and, 	hopefully, can then install a newer version of 'Gradle'. (It had been Gradle Version  8.1, I believe).
+
+	Date 03/ Nov / 2023
+	Name: Rory O' Donoghue
+	    Theme: Creating and switching to a new Branch
