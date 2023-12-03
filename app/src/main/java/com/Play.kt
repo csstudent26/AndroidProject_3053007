@@ -101,6 +101,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 
 import com.example.oct24provisional.R
 
@@ -143,11 +144,13 @@ fun PlayScreenCX() {
         color = MaterialTheme.colorScheme.background
     ) {
         // Using the WelcomeScreen to trigger StartAction
-        WelcomeScreen(playerName = "John", chosenOption = "Option A") {
+        /*   WelcomeScreen(playerName = "John", chosenOption = "Option A") {
             // This lambda is called when the player is ready to play
             // Implement the game start logic here
             isStartAction = true // Set the flag to trigger StartAction
-        }
+
+        */
+    }
         if (isStartAction) {
             // Show StartAction() when in progress
                 StartAction()
@@ -184,7 +187,7 @@ fun PlayScreenCX() {
     }
 
 
-}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen2X() {
@@ -259,12 +262,12 @@ fun GameScreen2X() {
 
             if (playerName.isNotEmpty()) {
                 // Display the WelcomeScreen if playerName is not empty
-                WelcomeScreen(playerName = playerName, chosenOption = "Some Option") {
+
                     // This lambda is called when the player is ready to play
                     // Add logic here to start the game
                     // For example: navigate to the game screen or trigger game start function
                     gameStarted = true
-                }
+
             }
             // Conditionally display StartAction based on gameStarted flag
           //  if (gameStarted) {
