@@ -677,7 +677,7 @@ fun GameScreen2() {
             //  DiceGameVG()
             UserDiceThrows()
         } else {
-            
+
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(onClick = {
@@ -692,6 +692,18 @@ fun GameScreen2() {
                     Text("Submit")
                 }
             } else {
+                if (playerName.isNotEmpty()) {
+                    // Display the WelcomeScreen if playerName is not empty
+                    WelcomeScreen(
+                        playerName = playerName,
+                        chosenOption = " Some Option",
+                        onReadyToPlay = { shouldRunLooking = true }
+                    ) {
+                        // This lambda is called when the player is ready to play
+                        // Add logic here to start the game (At Moment Not Used)
+                        // For example: navigate to the game screen or trigger game start function
+                    }
+                }
                 Text("Choose a name to play:")
                 Spacer(modifier = Modifier.height(8.dp))
 
