@@ -703,7 +703,7 @@ fun GameScreen2() {
                         // Add logic here to start the game (At Moment Not Used)
                         // For example: navigate to the game screen or trigger game start function
                     }
-                }
+                }else
                 Text("Choose a name to play:")
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -729,18 +729,7 @@ fun GameScreen2() {
                     Text("Log in with a custom name")
                 }
 
-                if (playerName.isNotEmpty()) {
-                    // Display the WelcomeScreen if playerName is not empty
-                    WelcomeScreen(
-                        playerName = playerName,
-                        chosenOption = " Some Option",
-                        onReadyToPlay = { shouldRunLooking = true }
-                    ) {
-                        // This lambda is called when the player is ready to play
-                        // Add logic here to start the game
-                        // For example: navigate to the game screen or trigger game start function
-                    }
-                }
+                
             }
         }
     }
