@@ -677,24 +677,7 @@ fun GameScreen2() {
             //  DiceGameVG()
             UserDiceThrows()
         } else {
-            if (isLoggingIn) {
-                var enteredName by remember { mutableStateOf("") }
-
-                TextField(
-                    value = enteredName,
-                    onValueChange = { enteredName = it },
-                    label = { Text("Enter your name") },
-                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
-                    keyboardActions = KeyboardActions(onDone = {
-                        if (enteredName.isNotBlank()) {
-                            playerName = enteredName
-                            // Trigger the game start with entered name
-                            // Call a function here to start the game with playerName
-                            // onGameStart(playerName)
-                        }
-                        isLoggingIn = false
-                    })
-                )
+            
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(onClick = {
