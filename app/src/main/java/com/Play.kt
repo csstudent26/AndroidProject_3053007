@@ -185,7 +185,14 @@ fun PlayScreenCX() {
                 ButtonSelect()
             }
     }
+//Composable to create a CheckBox
+// for users choice of Number of Rounds
+@Composable
+fun CheckBox1(){
 
+        Checkbox(checked = isChecked.value,
+            onCheckedChange ={isChecked.value = it} )
+}
 
 
 @OptIn(ExperimentalMaterial3Api::class)
