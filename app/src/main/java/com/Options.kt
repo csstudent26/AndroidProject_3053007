@@ -174,7 +174,7 @@ class Options : ComponentActivity() {
                         GameSettingsInfo()
                         //Composable explains to user about choosing number of 'Rounds' in Game
 
-                        OptionsScreen()
+                      //  OptionsScreen()
                         //Composable to place 'Radio Buttons'
                         CustomRadioGroup(
                             modifier = Modifier
