@@ -767,10 +767,10 @@ fun GameScreen2() {
 
 @Composable
 fun WelcomeScreen(
-    playerName: String,
-   // chosenOption: String,
+    playerName: String
+    onRoundsSelected: () -> Unit,// Additional callback parameter, in place of 'String'
     onReadyToPlay: () -> Unit,
-    onRoundsSelected: () -> Unit,// Additional callback parameter
+
 ) {
 
     val context = LocalContext.current // Obtain the context
