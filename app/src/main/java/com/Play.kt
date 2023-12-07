@@ -109,7 +109,10 @@ import kotlin.math.sqrt
 import kotlin.random.Random
 
 
+
 class Play : ComponentActivity() {
+
+  //  var checkBoxCompleted = false
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -190,8 +193,13 @@ fun PlayScreenCX() {
 @Composable
 fun CheckBox1(){
 
-        Checkbox(checked = isChecked.value,
-            onCheckedChange ={isChecked.value = it} )
+    var isChecked by remember {mutableStateOf(false)}
+    Column() {
+        Text(text = "Inside CheckBox!")
+        Checkbox(checked = isChecked,
+            onCheckedChange = { isChecked = it })
+        var checkBoxCompletedX = isChecked
+    }
 }
 
 
@@ -673,9 +681,10 @@ fun GameScreen2() {
     var playerName by remember { mutableStateOf("") }
 
     // Two booleans with which we can control the 'if' conditions
-    // By controling the 'if' conditions we can control program flow
+    // By controlling the 'if' conditions we can control program flow
     var isLoggingIn by remember { mutableStateOf(false) }
     var shouldRunLooking by remember { mutableStateOf(false) } // Condition to run Looking()
+    var roundsSelected by remember { mutableStateOf(false) } // Condition to run Looking()
 
     Column(
         modifier = Modifier
@@ -697,13 +706,13 @@ fun GameScreen2() {
                 // Display the WelcomeScreen if playerName is not empty ( name is chosen).
                 WelcomeScreen(
                     playerName = playerName,
-                    chosenOption = " Some Option",
+                    onRoundsSelected = {  roundsSelected = true },
                     onReadyToPlay = { shouldRunLooking = true }
-                ) {
+                ) /*{
                     // This lambda sets the 'shouldRunLooking() to 'true'
 
 
-                }
+                }*/
           // This is condition (3) . It is where we start interaction ( and action)
             // After 'isLoggingIn' is set to 'true' the names chosen will be remembered.
             // Clicking on any button ( Player1, Player2, Player3, or 'Log in with a Custom name',
@@ -767,17 +776,25 @@ fun GameScreen2() {
 
 @Composable
 fun WelcomeScreen(
-    playerName: String
-    onRoundsSelected: () -> Unit,// Additional callback parameter, in place of 'String'
+    playerName: String,
+    onRoundsSelected: () -> Unit,// Additional callback parameter, in place of old 'String' parameter
     onReadyToPlay: () -> Unit,
 
 ) {
 
     val context = LocalContext.current // Obtain the context
-    var shouldRunLooking by remember { mutableStateOf(false) } // Condition to run Looking()
+    var shouldRunLooking by remember { mutableStateOf(false) }
+    var roundsSelected by remember { mutableStateOf(true) }
+
+
+
+
+
 
 
     var gameStarted by remember { mutableStateOf(false) }
+    var checkBoxCompleted  by remember { mutableStateOf(false) }
+
 
     if (!gameStarted) {
 
@@ -785,29 +802,67 @@ fun WelcomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(16.dp), // Has coma only at end of sequence
+            //Setting Text Alignment(Horizontal), Arrangement(Vertical)
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Text("Welcome, $playerName!", fontSize = 24.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(16.dp))
-            Text("You chose: $chosenOption", fontSize = 18.sp)
-            Spacer(modifier = Modifier.height(32.dp))
-            Text("Are you ready to play?", fontSize = 20.sp)
 
-            // Button to start the game
-            Button(
-                onClick = {
-                    // Trigger the game start here
+           /* if(checkBoxCompleted) {
+                Text("Are you ready to play?", fontSize = 20.sp)
 
-                    onReadyToPlay()
+                // Button to start the game
+                Button(
+                    onClick = {
+                        // Trigger the game start here
 
-                    // Notify the activity to start the game
-                },
-                modifier = Modifier.padding(vertical = 16.dp)
-            ) {
-                Text("Let's Play!")
-            }
+                        onReadyToPlay()
+
+                        // Notify the activity to start the game
+                    },
+                    modifier = Modifier.padding(vertical = 16.dp)
+                ) {
+                    Text("Let's Play!")
+                }
+            }*/
+                if (!checkBoxCompleted){
+
+                    var isChecked by remember {mutableStateOf(false)}
+
+                    Checkbox(checked = isChecked,
+                        onCheckedChange = { isChecked = it })
+                    checkBoxCompleted = isChecked
+                }
+                    else {
+                     // Setting Inner Column01
+                    Column( modifier = Modifier.fillMaxSize()
+                        .padding(16.dp),
+                        //Setting Text Alignment(Horizontal), Arrangement(Vertical)
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center) {
+
+                        Text("Are you ready to play?", fontSize = 20.sp)
+
+                        // Button to start the game
+                        Button(
+                            onClick = {
+                                // Trigger the game start here
+
+                                onReadyToPlay()
+
+                                // Notify the activity to start the game
+                            },
+                            modifier = Modifier.padding(vertical = 16.dp)
+                        ) {
+                            Text("Let's Play!")
+                        }
+                    }//End of inner Column01
+                }
+
+
+
 
 
         }
