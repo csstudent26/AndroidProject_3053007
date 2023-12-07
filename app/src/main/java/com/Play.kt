@@ -916,9 +916,15 @@ fun UserDiceThrows() {
 
             // Simulate dealer's dice throws
             val random = Random.Default
-            dealerDiceValue1 = random.nextInt(1, 7)
-            dealerDiceValue2 = random.nextInt(1, 7)
-            dealerScore = dealerDiceValue1 + dealerDiceValue2
+            if(!isDealerFirstDiceThrow) {
+                dealerDiceValue1 = random.nextInt(1, 7)
+                isDealerFirstDiceThrow = true
+
+            }
+            if(!isDealerSecondDiceThrow) {
+                dealerDiceValue2 = random.nextInt(1, 7)
+                dealerScore = dealerDiceValue1 + dealerDiceValue2
+            }
             isDealerScoreFinal = true
         }
     }
