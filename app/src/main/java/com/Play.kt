@@ -891,6 +891,13 @@ fun UserDiceThrows() {
         }
     }
 
+    var isUserFirstDiceThrow by remember{ mutableStateOf(false)}
+    var isUserSecondDiceThrow by remember{ mutableStateOf(false)}
+
+    var isDealerFirstDiceThrow by remember{ mutableStateOf(false)}
+    var isDealerSecondDiceThrow by remember{ mutableStateOf(false)}
+
+
     // Function to handle user's dice throws//End of NCode!
     val onUserDiceThrown: () -> Unit = {
         if (!isScoreFinal) {
