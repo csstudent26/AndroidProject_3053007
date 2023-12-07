@@ -901,10 +901,16 @@ fun UserDiceThrows() {
     // Function to handle user's dice throws//End of NCode!
     val onUserDiceThrown: () -> Unit = {
         if (!isScoreFinal) {
-            userDiceValue1 = (1..6).random()
-            userDiceValue2 = (1..6).random()
-            userScore = userDiceValue1 + userDiceValue2
+            if(!isUserFirstDiceThrow) {
+                userDiceValue1 = (1..6).random()
+                    isUserFirstDiceThrow = true
+            }
+            if(!isUserSecondDiceThrow) {
+                userDiceValue2 = (1..6).random()
+                isUserSecondDiceThrow = true
+                userScore = userDiceValue1 + userDiceValue2
 
+            }
             // Set the flag to indicate the score is final after calculating it
             isScoreFinal = true
 
