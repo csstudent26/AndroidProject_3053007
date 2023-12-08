@@ -104,11 +104,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 
 import com.example.oct24provisional.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class Play : ComponentActivity() {
 
@@ -904,12 +908,17 @@ fun UserDiceThrows() {
             if(!isUserFirstDiceThrow) {
                 userDiceValue1 = (1..6).random()
                     isUserFirstDiceThrow = true
-            }
-            if(!isUserSecondDiceThrow) {
-                userDiceValue2 = (1..6).random()
-                isUserSecondDiceThrow = true
-                userScore = userDiceValue1 + userDiceValue2
 
+            }
+                CoroutineScope(Dispatchers.Default).launch {
+
+                delay(5000)
+                if (!isUserSecondDiceThrow) {
+                    userDiceValue2 = (1..6).random()
+                    isUserSecondDiceThrow = true
+                    userScore = userDiceValue1 + userDiceValue2
+
+                }
             }
             // Set the flag to indicate the score is final after calculating it
             isScoreFinal = true
