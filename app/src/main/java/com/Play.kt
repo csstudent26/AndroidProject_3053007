@@ -106,6 +106,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.example.oct24provisional.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 
 import kotlin.math.sqrt
 import kotlin.random.Random
@@ -952,6 +953,40 @@ fun UserDiceThrows() {
             .background(color = androidx.compose.ui.graphics.Color.Green) // Setting the light green background
             .border(1.dp, androidx.compose.ui.graphics.Color.Red) // Applying a red border
     ) {
+        //Column 01 For Image Display
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .background(color = Color.Green) // Setting the light green background
+                .border(1.dp, Color.Red), // Applying a red border
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+
+        ){ Row(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .background(color = Color.Green)
+                .border(1.dp, Color.Red),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            // User's dice
+            if (!isUserFirstDiceThrown) {
+                ImageForDiceTe(value = 1)
+            } else if (isUserFirstDiceThrown) {
+                ImageForDiceTe(value = userDiceValue1)
+                GlobalScope.launch {
+                    delay(1000) // Delay for 1 second
+                    isDealersTurn = true
+                }
+
+
+            }
+
+        }
+        }//End of users Column
         // Prompt for the user to roll the dice
         Text("Roll Die Please!", fontSize = 24.sp,)
         Spacer(modifier = Modifier.height(24.dp))
