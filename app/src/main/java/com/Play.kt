@@ -987,6 +987,39 @@ fun UserDiceThrows() {
 
         }
         }//End of users Column
+
+        // Space between user's and dealer's dice
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Column 02 :
+        // Column for Dealer's Dice Display
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .background(color = Color.Blue)
+                .border(1.dp, Color.Yellow),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            // Dealer's dice
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .background(color = Color.Blue)
+                    .border(1.dp, Color.Yellow),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                ImageForDiceTe(value = dealerDiceValue1)
+                Spacer(modifier = Modifier.width(16.dp))
+                //  ImageForDiceTe(value = dealerDiceValue2)
+            }
+
+        }//End of Column 02 : dealers Column
+
         // Prompt for the user to roll the dice
         Text("Roll Die Please!", fontSize = 24.sp,)
         Spacer(modifier = Modifier.height(24.dp))
