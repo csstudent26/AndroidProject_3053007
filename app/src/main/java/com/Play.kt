@@ -1112,75 +1112,9 @@ fun UserDiceThrows() {
             }
 
         }// Column 03 For Text Display
-
-        // Prompt for the user to roll the dice
-        Text("Roll Die Please!", fontSize = 24.sp,)
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Column(modifier = Modifier.fillMaxSize()) {
-            // User's section
-            Column(
-                modifier = Modifier.weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        ImageForDice(userDiceValue1)
-                        Spacer(modifier = Modifier.width(16.dp))
-                        ImageForDice(userDiceValue2)
-                    }
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Text(
-                        "Your Score: $userScore",
-                        fontSize = 24.sp
-                    )
-                }
-            }
-
-            // Dealer's section
-            Column(
-                modifier = Modifier.weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        ImageForDice(dealerDiceValue1)
-                        Spacer(modifier = Modifier.width(16.dp))
-                        ImageForDice(dealerDiceValue2)
-                    }
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Text(
-                        "Dealer's Score: $dealerScore",
-                        fontSize = 24.sp
-                    )
-
-                    val winner = determineWinner()
-                    // Print the winner using a suitable method (e.g., Text composable, AlertDialog, Toast)
-                    Text(
-                        text = winner,
-                        fontSize = 24.sp,
-                        color = androidx.compose.ui.graphics.Color.Red, // Setting the text color to red
-                        textAlign = TextAlign.Center, // Centering the text horizontally
-                        modifier = Modifier.fillMaxWidth() // Fill the width of the parent
-                    )
-                }
-            }
-        }
-
     }
-}
+}// End of UserThrowDice()
+       
 //Composable to Detect Movement From Auxillary Project. ( almost exact same as existing Composable to detect movement
 @Composable
 fun DiceThrowOnMovement(onDiceThrown: () -> Unit) {
