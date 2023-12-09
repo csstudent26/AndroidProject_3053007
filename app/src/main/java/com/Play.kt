@@ -1020,6 +1020,99 @@ fun UserDiceThrows() {
 
         }//End of Column 02 : dealers Column
 
+        //Column 03 : For Text Display
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                // verticalArrangement = Arrangement.Center,
+                // horizontalAlignment = Alignment.CenterHorizontally
+                .background(color = Color.White) // Setting the light green background
+                .border(1.dp, Color.Red) // Applying a red border
+        ) {
+            // Prompt for the user to roll the dice
+            //  Text("Roll Die Please!", fontSize = 24.sp,)
+            //  if (!isDealersTurn) {
+            // Text("Roll Die Please!", fontSize = 24.sp)
+            //  }
+            if (!isDealersTurn) {
+                Text("Roll Die Please!", fontSize = 24.sp,)
+            } else {
+                Button(
+                    onClick = { /* Action when the button is clicked */ },
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text("Let Dealer Throw!")
+                }
+            }
+            Spacer(modifier = Modifier.height(24.dp))
+
+            //Users Column 02
+            Column(modifier = Modifier.fillMaxSize()) {
+                // User's section
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // Column 02
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        //Row 01
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            //  ImageForDice(userDiceValue1)
+                            Spacer(modifier = Modifier.width(16.dp))
+
+                            Text("Your Score $userDiceValue1")
+
+
+                        }//End of Row 01
+
+
+                        Spacer(modifier = Modifier.height(24.dp))
+                        Text(
+                            "Your Score: $userScore",
+                            fontSize = 24.sp
+                        )
+                    }//End Of Row01
+                }// Ehd of Column 02
+
+                // Dealer's section
+                // Dealer Column 03
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // Dealers Column 04
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            // ImageForDice(dealerDiceValue1)
+                            Spacer(modifier = Modifier.width(16.dp))
+                            //  ImageForDice(dealerDiceValue2)
+                        }
+                        Spacer(modifier = Modifier.height(24.dp))
+                        Text(
+                            "Dealer's Score: $dealerScore",
+                            fontSize = 24.sp
+                        )
+
+
+                    }
+                }
+            }
+
+        }// Column 03 For Text Display
+
         // Prompt for the user to roll the dice
         Text("Roll Die Please!", fontSize = 24.sp,)
         Spacer(modifier = Modifier.height(24.dp))
