@@ -114,7 +114,9 @@ import kotlin.random.Random
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 class Play : ComponentActivity() {
 
   //  var checkBoxCompleted = false
@@ -886,6 +888,9 @@ fun UserDiceThrows() {
     var dealerScore by remember { mutableStateOf(0) }
     var isDealerScoreFinal by remember { mutableStateOf(false) } // Flag to indicate if the score is final
 
+    //Boolean to control Dealers Throw
+    var isDealersTurn by remember { mutableStateOf(false) }
+
 
     // Function to determine the winner based on scores
     fun determineWinner(): String {
@@ -973,10 +978,10 @@ fun UserDiceThrows() {
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             // User's dice
-            if (!isUserFirstDiceThrown) {
-                ImageForDiceTe(value = 1)
-            } else if (isUserFirstDiceThrown) {
-                ImageForDiceTe(value = userDiceValue1)
+            if (!isUserFirstDiceThrow) {
+                ImageForDice(value = 1)
+            } else if (isUserFirstDiceThrow) {
+                ImageForDice(value = userDiceValue1)
                 GlobalScope.launch {
                     delay(1000) // Delay for 1 second
                     isDealersTurn = true
@@ -1013,7 +1018,7 @@ fun UserDiceThrows() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                ImageForDiceTe(value = dealerDiceValue1)
+                ImageForDice(value = dealerDiceValue1)
                 Spacer(modifier = Modifier.width(16.dp))
                 //  ImageForDiceTe(value = dealerDiceValue2)
             }
@@ -1114,7 +1119,7 @@ fun UserDiceThrows() {
         }// Column 03 For Text Display
     }
 }// End of UserThrowDice()
-       
+
 //Composable to Detect Movement From Auxillary Project. ( almost exact same as existing Composable to detect movement
 @Composable
 fun DiceThrowOnMovement(onDiceThrown: () -> Unit) {
