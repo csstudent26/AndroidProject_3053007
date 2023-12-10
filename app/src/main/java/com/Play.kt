@@ -117,6 +117,9 @@ import kotlinx.coroutines.runBlocking
 
 import kotlinx.coroutines.delay
 
+
+
+
 class Play : ComponentActivity() {
 
   //  var checkBoxCompleted = false
@@ -878,10 +881,16 @@ fun WelcomeScreen(
 //Composable added from auxillary(Nov02) Test Project
 @Composable
 fun UserDiceThrows() {
+
+    var alpha by remember { mutableStateOf(false) }
+    var beta by remember { mutableStateOf(false) }
+
+
+
     var userDiceValue1 by remember { mutableStateOf(1) }
     var userDiceValue2 by remember { mutableStateOf(1) }
     var userScore by remember { mutableStateOf(0) }
-    var isScoreFinal by remember { mutableStateOf(false) } // Flag to indicate if the score is final
+    var isPlayerScoreFinal by remember { mutableStateOf(false) } // Flag to indicate if the score is final
 
     var dealerDiceValue1 by remember { mutableStateOf(1) }
     var dealerDiceValue2 by remember { mutableStateOf(1) }
@@ -945,16 +954,49 @@ fun UserDiceThrows() {
     }*/
     //Function that we put inside ' DiceThrowOnMovement(-p-) ' to use the Accelerometer
     val onUserDiceThrown: () -> Unit = {
-        if (!isScoreFinal) {
+
+        //if the score of the Player is still not final, we can continue using this function
+        if (!isPlayerScoreFinal) {
             //If the user has not already thrown, we now throw the first dice
             if (!isUserFirstDiceThrow) {
+                // we now assign a value to the first user Dice
                 userDiceValue1 = (1..6).random()
+
+                //The user has now had first throw, so we change value of boolean
                 isUserFirstDiceThrow = true
                 //If the user has not already thrown second dice, we now throw the second dice
             } else if (!isUserSecondDiceThrow) {
+                //We assign value to users second dice
                 userDiceValue2 = (1..6).random()
+                //change value of boolean, as user has thrown second dice
                 isUserSecondDiceThrow = true
+                //Add the value of the two die(dice) together to get users score
                 userScore = userDiceValue1 + userDiceValue2
+            }
+
+        }
+    }
+
+    //Function for the Dealers Throws
+    val onDealerDiceThrown: () -> Unit = {
+        //Declare a variable to store the random value(employs the 'Ramdom Class' each time)
+        val random = Random.nextInt(1,7)
+
+        //If the dealers score is not yet final, we can use this funcction every time dealer has a turn
+        if (!isDealerScoreFinal) {
+
+                // If dealer has not yet thrown
+            if (!isDealerFirstDiceThrow) {
+                //Assign valye to dealers first dice
+                dealerDiceValue1 = random
+                isDealerFirstDiceThrow = true // change value of boolean( as dealer has had first throw)
+                // If the dealer has not thrown a second time (we now can)
+            } else if (!isDealerSecondDiceThrow) {
+                // assign a value to dealers second dice
+                dealerDiceValue2 = random
+                isDealerSecondDiceThrow = true// change value of boolean
+                //Adding the dealers throws
+                dealerScore = dealerDiceValue1 + dealerDiceValue2
             }
 
         }
@@ -1005,6 +1047,10 @@ fun UserDiceThrows() {
                     // Boolean to Control dealer's Throw is set to 'true'
                     isDealersTurn = true
                 }
+                if(isUserSecondDiceThrow && alpha) {
+                        ImageForDice(value = userDiceValue2)
+                        beta = true
+                    }
 
 
             }
@@ -1040,6 +1086,10 @@ fun UserDiceThrows() {
                 ImageForDice(value = dealerDiceValue1)
                 Spacer(modifier = Modifier.width(16.dp))
                 //  ImageForDiceTe(value = dealerDiceValue2)
+                if(beta){
+                    ImageForDice(value = dealerDiceValue2)
+
+                }
             }
 
         }//End of Column 02 : dealers Column
@@ -1063,7 +1113,8 @@ fun UserDiceThrows() {
                 Text("Roll Die Please!", fontSize = 24.sp,)
             } else {
                 Button(
-                    onClick = { /* Action when the button is clicked */ },
+                    onClick = { onDealerDiceThrown()
+                              alpha = true   },
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Text("Let Dealer Throw!")
@@ -1091,7 +1142,7 @@ fun UserDiceThrows() {
                             //  ImageForDice(userDiceValue1)
                             Spacer(modifier = Modifier.width(16.dp))
 
-                            Text("Your Score $userDiceValue1")
+                        //    Text("Your Score $userDiceValue1")
 
 
                         }//End of Row 01
