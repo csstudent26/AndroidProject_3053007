@@ -847,7 +847,8 @@ fun WelcomeScreen(
                 }
                     else {
                      // Setting Inner Column01
-                    Column( modifier = Modifier.fillMaxSize()
+                    Column( modifier = Modifier
+                        .fillMaxSize()
                         .padding(16.dp),
                         //Setting Text Alignment(Horizontal), Arrangement(Vertical)
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -886,7 +887,6 @@ fun UserDiceThrows() {
     var beta by remember { mutableStateOf(false) }
 
 
-
     var userDiceValue1 by remember { mutableStateOf(1) }
     var userDiceValue2 by remember { mutableStateOf(1) }
     var userScore by remember { mutableStateOf(0) }
@@ -910,11 +910,11 @@ fun UserDiceThrows() {
         }
     }
 
-    var isUserFirstDiceThrow by remember{ mutableStateOf(false)}
-    var isUserSecondDiceThrow by remember{ mutableStateOf(false)}
+    var isUserFirstDiceThrow by remember { mutableStateOf(false) }
+    var isUserSecondDiceThrow by remember { mutableStateOf(false) }
 
-    var isDealerFirstDiceThrow by remember{ mutableStateOf(false)}
-    var isDealerSecondDiceThrow by remember{ mutableStateOf(false)}
+    var isDealerFirstDiceThrow by remember { mutableStateOf(false) }
+    var isDealerSecondDiceThrow by remember { mutableStateOf(false) }
 
 
     // Function to handle user's dice throws//End of NCode!
@@ -965,7 +965,8 @@ fun UserDiceThrows() {
                 //The user has now had first throw, so we change value of boolean
                 isUserFirstDiceThrow = true
                 //If the user has not already thrown second dice, we now throw the second dice
-            } else if (!isUserSecondDiceThrow) {
+                // NOTE: we need alpha set to true after the first dealer throw
+            } else if (!isUserSecondDiceThrow && alpha) {
                 //We assign value to users second dice
                 userDiceValue2 = (1..6).random()
                 //change value of boolean, as user has thrown second dice
@@ -980,16 +981,17 @@ fun UserDiceThrows() {
     //Function for the Dealers Throws
     val onDealerDiceThrown: () -> Unit = {
         //Declare a variable to store the random value(employs the 'Ramdom Class' each time)
-        val random = Random.nextInt(1,7)
+        val random = Random.nextInt(1, 7)
 
         //If the dealers score is not yet final, we can use this funcction every time dealer has a turn
         if (!isDealerScoreFinal) {
 
-                // If dealer has not yet thrown
+            // If dealer has not yet thrown
             if (!isDealerFirstDiceThrow) {
                 //Assign valye to dealers first dice
                 dealerDiceValue1 = random
-                isDealerFirstDiceThrow = true // change value of boolean( as dealer has had first throw)
+                isDealerFirstDiceThrow =
+                    true // change value of boolean( as dealer has had first throw)
                 // If the dealer has not thrown a second time (we now can)
             } else if (!isDealerSecondDiceThrow) {
                 // assign a value to dealers second dice
@@ -1008,7 +1010,7 @@ fun UserDiceThrows() {
     DiceThrowOnMovement(onDiceThrown = onUserDiceThrown)
 
 
-    // UI elements for displaying user's dice values and score
+    // (MAIN COLUMN: divides Page in sections )  UI elements for displaying All Dice Images and Text ( score etc.)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -1027,36 +1029,43 @@ fun UserDiceThrows() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
 
-        ){ Row(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .background(color = Color.Green)
-                .border(1.dp, Color.Red),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            // STEP 01 : User's Dice 1 is Displayed before any Dice are Thrown
-            if (!isUserFirstDiceThrow) {
-                ImageForDice(value = 1)
-            // STEP 02: User Dice 1 is Thrown and Result Displayed
-            } else if (isUserFirstDiceThrow) {
-                ImageForDice(value = userDiceValue1)
-                GlobalScope.launch {
-                    delay(1000) // Delay for 1 second
-                    // Boolean to Control dealer's Throw is set to 'true'
-                    isDealersTurn = true
-                }
-                if(isUserSecondDiceThrow && alpha) {
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .background(color = Color.Green)
+                    .border(1.dp, Color.Red),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                //At Left/Centre of Top of Page
+                // STEP 01 : User's Dice 1 is Displayed before any Dice are Thrown
+                if (!isUserFirstDiceThrow) {
+                    ImageForDice(value = 1)//Image of Dice displayed
+
+                    // STEP 02: User Dice 1 is Thrown and Result Displayed
+                } else if (isUserFirstDiceThrow) {
+                    ImageForDice(value = userDiceValue1)// Image is updated to reflect value of throw
+
+                    // A Time delay to avoid two actions on UI Simultaneously
+                    GlobalScope.launch {
+                        delay(1000) // Delay for 1 second
+
+                        // Boolean to Control dealer's Throw is set to 'true'
+                        isDealersTurn = true
+                    }
+                    //User must wait until alpha is set to 'true'( happens after dealers first throw)
+                    if (isUserSecondDiceThrow && alpha) {
                         ImageForDice(value = userDiceValue2)
                         beta = true
                     }
 
 
-            }
+                }
 
-        }
-        }//End of users Column
+            }
+        }//End of Column 01
 
         // Space between user's and dealer's dice
         Spacer(modifier = Modifier.height(24.dp))
@@ -1083,112 +1092,57 @@ fun UserDiceThrows() {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                ImageForDice(value = dealerDiceValue1)
-                Spacer(modifier = Modifier.width(16.dp))
-                //  ImageForDiceTe(value = dealerDiceValue2)
-                if(beta){
+                // ImageForDice(value = dealerDiceValue1)
+                if (!isDealerFirstDiceThrow) {
+
+                    ImageForDice(value = 1)
+                    Spacer(modifier = Modifier.width(16.dp))
+                    //  ImageForDice(value = dealerDiceValue2)
+                } else {
+                    ImageForDice(value = dealerDiceValue1)
+                }
+                if (isDealerSecondDiceThrow && beta) {
+
                     ImageForDice(value = dealerDiceValue2)
-
                 }
-            }
-
-        }//End of Column 02 : dealers Column
-
-        //Column 03 : For Text Display
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                // verticalArrangement = Arrangement.Center,
-                // horizontalAlignment = Alignment.CenterHorizontally
-                .background(color = Color.White) // Setting the light green background
-                .border(1.dp, Color.Red) // Applying a red border
-        ) {
-            // Prompt for the user to roll the dice
-            //  Text("Roll Die Please!", fontSize = 24.sp,)
-            //  if (!isDealersTurn) {
-            // Text("Roll Die Please!", fontSize = 24.sp)
-            //  }
-            if (!isDealersTurn) {
-                Text("Roll Die Please!", fontSize = 24.sp,)
-            } else {
-                Button(
-                    onClick = { onDealerDiceThrown()
-                              alpha = true   },
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Text("Let Dealer Throw!")
-                }
-            }
-            Spacer(modifier = Modifier.height(24.dp))
-
-            //Users Column 02
-            Column(modifier = Modifier.fillMaxSize()) {
-                // User's section
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    // Column 02
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        //Row 01
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            //  ImageForDice(userDiceValue1)
-                            Spacer(modifier = Modifier.width(16.dp))
-
-                        //    Text("Your Score $userDiceValue1")
 
 
-                        }//End of Row 01
+            }//End of  Dealer  Row Scope
+        }
+            //Column 03 : For Text Display
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    // verticalArrangement = Arrangement.Center,
+                    // horizontalAlignment = Alignment.CenterHorizontally
+                    .background(color = Color.White) // Setting the light green background
+                    .border(1.dp, Color.Red) // Applying a red border
+            ) {
+                // Prompt for the user to roll the dice
+                //  Text("Roll Die Please!", fontSize = 24.sp,)
+                //  if (!isDealersTurn) {
+                // Text("Roll Die Please!", fontSize = 24.sp)
+                //  }
+                if (!isDealersTurn) {
+                    Text("Roll Die Please!", fontSize = 24.sp,)
+                } else {
+                    // Column TX
+                    Column{
 
+                        Text(" Your Score $userScore",
+                            fontSize = 24.sp, )
 
-                        Spacer(modifier = Modifier.height(24.dp))
-                        Text(
-                            "Your Score: $userScore",
-                            fontSize = 24.sp
-                        )
-                    }//End Of Row01
-                }// Ehd of Column 02
+                        Text(" Dealer's $dealerScore",
+                                    fontSize = 24.sp )
+                    }// End of Column TX
+                    
+                 }//End of else statement
 
-                // Dealer's section
-                // Dealer Column 03
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    // Dealers Column 04
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            // ImageForDice(dealerDiceValue1)
-                            Spacer(modifier = Modifier.width(16.dp))
-                            //  ImageForDice(dealerDiceValue2)
-                        }
-                        Spacer(modifier = Modifier.height(24.dp))
-                        Text(
-                            "Dealer's Score: $dealerScore",
-                            fontSize = 24.sp
-                        )
+            }// Column 03 For Text Display
 
-
-                    }
-                }
-            }
-
-        }// Column 03 For Text Display
-    }
-}// End of UserThrowDice()
+    }// End of Maim Column
+}//End of Method
 
 //Composable to Detect Movement From Auxillary Project. ( almost exact same as existing Composable to detect movement
 @Composable
@@ -1220,7 +1174,9 @@ fun DiceThrowOnMovement(onDiceThrown: () -> Unit) {
 
                     if (acceleration > threshold) {
                         // Movement detected, trigger the action (simulate dice throw)
+                        //NOTE:if we comment out this line, our UI will remain Static
                         onDiceThrown.invoke()
+
                     }
                 }
             }
