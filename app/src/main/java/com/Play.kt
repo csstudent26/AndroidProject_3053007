@@ -114,9 +114,9 @@ import kotlin.random.Random
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.GlobalScope
+
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+
 class Play : ComponentActivity() {
 
   //  var checkBoxCompleted = false
@@ -909,7 +909,7 @@ fun UserDiceThrows() {
 
 
     // Function to handle user's dice throws//End of NCode!
-    val onUserDiceThrown: () -> Unit = {
+    /*val onUserDiceThrown: () -> Unit = {
         if (!isScoreFinal) {
             if(!isUserFirstDiceThrow) {
                 userDiceValue1 = (1..6).random()
@@ -942,7 +942,24 @@ fun UserDiceThrows() {
             }
             isDealerScoreFinal = true
         }
+    }*/
+    //Function that we put inside ' DiceThrowOnMovement(-p-) ' to use the Accelerometer
+    val onUserDiceThrown: () -> Unit = {
+        if (!isScoreFinal) {
+            //If the user has not already thrown, we now throw the first dice
+            if (!isUserFirstDiceThrow) {
+                userDiceValue1 = (1..6).random()
+                isUserFirstDiceThrow = true
+                //If the user has not already thrown second dice, we now throw the second dice
+            } else if (!isUserSecondDiceThrow) {
+                userDiceValue2 = (1..6).random()
+                isUserSecondDiceThrow = true
+                userScore = userDiceValue1 + userDiceValue2
+            }
+
+        }
     }
+
 
 // Composable to detect movement and trigger dice throw for the user
 
@@ -977,13 +994,15 @@ fun UserDiceThrows() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            // User's dice
+            // STEP 01 : User's Dice 1 is Displayed before any Dice are Thrown
             if (!isUserFirstDiceThrow) {
                 ImageForDice(value = 1)
+            // STEP 02: User Dice 1 is Thrown and Result Displayed
             } else if (isUserFirstDiceThrow) {
                 ImageForDice(value = userDiceValue1)
                 GlobalScope.launch {
                     delay(1000) // Delay for 1 second
+                    // Boolean to Control dealer's Throw is set to 'true'
                     isDealersTurn = true
                 }
 
