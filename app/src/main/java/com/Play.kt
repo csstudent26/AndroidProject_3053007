@@ -1136,8 +1136,20 @@ fun UserDiceThrows() {
                         Text(" Dealer's $dealerScore",
                                     fontSize = 24.sp )
                     }// End of Column TX
-                    
+
                  }//End of else statement
+                if(isDealersTurn){
+
+                    Button(onClick = {
+
+                        onDealerDiceThrown()
+                        alpha = true
+                    },
+                       modifier = Modifier.padding(16.dp)
+                    )    {Text(" Let Dealer Throw!")
+
+                    }// End of Button Content
+                }//End of if statement
 
             }// Column 03 For Text Display
 
