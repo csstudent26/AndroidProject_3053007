@@ -1068,7 +1068,9 @@ fun UserDiceThrows() {
         }//End of Column 01
 
         // Space between user's and dealer's dice
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(24.dp)
+                            .fillMaxWidth()
+                            .background(Color.White))
 
         // Column 02 :
         // Column for Dealer's Dice Display
@@ -1144,6 +1146,7 @@ fun UserDiceThrows() {
 
                         onDealerDiceThrown()
                         alpha = true
+
                     },
                        modifier = Modifier.padding(16.dp)
                     )    {Text(" Let Dealer Throw!")
@@ -1151,7 +1154,7 @@ fun UserDiceThrows() {
                     }// End of Button Content
                 }//End of if statement
 
-            }// Column 03 For Text Display
+            }// End of  Column 03 For Text Display
 
     }// End of Maim Column
 }//End of Method
