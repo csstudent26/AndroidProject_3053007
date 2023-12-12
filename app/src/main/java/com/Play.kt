@@ -133,11 +133,16 @@ class Play : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
 
-
+      // Initialize the database and YDao instance
+      val database = Room.databaseBuilder(applicationContext, DataBase::class.java, " ").build()
+      val yDao = database.yDao()
 
 
         setContent {
             OCT24ProvisionalTheme {
+
+                val playerName = remember { mutableStateOf("") }
+
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
@@ -784,6 +789,21 @@ fun GameScreen2() {
                     }
                 }
             }
+        }
+    }
+
+    fun registerPlayer(yDao: YDao, playerName: String) {
+        if (playerName.isNotBlank()) {
+            val existingPlayer = yDao.getPlayerByName(playerName)
+            if (existingPlayer == null) {
+                val newPlayer = Player(playerId = /* generate a unique ID */, playerName = playerName, score = 0, isGuest = false)
+                yDao.insertPlayer(newPlayer)
+                // Optionally, provide feedback to the user about successful registration
+            } else {
+                // Optionally, handle the case where the player name already exists
+            }
+        } else {
+            // Optionally, inform the user to enter a valid name
         }
     }
 }

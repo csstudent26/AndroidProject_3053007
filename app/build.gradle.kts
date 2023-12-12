@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
 }
 
 android {
@@ -52,6 +53,10 @@ android {
 }
 
 dependencies {
+
+    implementation("androidx.room:room-runtime:2.4.0") // Room Library
+    kapt("androidx.room:room-compiler:2.4.0") // Room Compiler
+
 
     implementation ("androidx.navigation:navigation-compose:2.4.0-beta01")
 
