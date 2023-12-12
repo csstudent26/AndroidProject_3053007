@@ -6,6 +6,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.media.MediaPlayer
 import android.widget.Toast
 
 import androidx.compose.runtime.remember
@@ -102,6 +103,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 
 import com.example.oct24provisional.R
 import kotlinx.coroutines.CoroutineScope
@@ -121,6 +124,8 @@ import kotlinx.coroutines.delay
 
 
 class Play : ComponentActivity() {
+
+    private  lateinit var navController: NavController
 
   //  var checkBoxCompleted = false
     @OptIn(ExperimentalMaterial3Api::class)
@@ -820,23 +825,7 @@ fun WelcomeScreen(
             Text("Welcome, $playerName!", fontSize = 24.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(16.dp))
 
-           /* if(checkBoxCompleted) {
-                Text("Are you ready to play?", fontSize = 20.sp)
 
-                // Button to start the game
-                Button(
-                    onClick = {
-                        // Trigger the game start here
-
-                        onReadyToPlay()
-
-                        // Notify the activity to start the game
-                    },
-                    modifier = Modifier.padding(vertical = 16.dp)
-                ) {
-                    Text("Let's Play!")
-                }
-            }*/
                 if (!checkBoxCompleted){
 
                     var isChecked by remember {mutableStateOf(false)}
@@ -859,9 +848,9 @@ fun WelcomeScreen(
                         // Button to start the game
                         Button(
                             onClick = {
-                                // Trigger the game start here
+                                // Trigger the game start here ( by enabling 'UserDiceThrows() )
 
-                                onReadyToPlay()
+                                onReadyToPlay()//PlaceHolder for 'UserDiceThrows()
 
                                 // Notify the activity to start the game
                             },
@@ -879,12 +868,25 @@ fun WelcomeScreen(
         }
     }
 }
+
+
+
 //Composable added from auxillary(Nov02) Test Project
 @Composable
 fun UserDiceThrows() {
 
+          var context = LocalContext.current
+
+    val navController : NavHostController = rememberNavController()
+
     var alpha by remember { mutableStateOf(false) }
     var beta by remember { mutableStateOf(false) }
+    var showButton by remember { mutableStateOf(true) }
+    var alternator by remember { mutableStateOf(true) }
+    var alternator2 by remember { mutableStateOf(false) }
+    var alternator3 by remember { mutableStateOf(false) }
+
+
 
 
     var userDiceValue1 by remember { mutableStateOf(1) }
@@ -903,12 +905,22 @@ fun UserDiceThrows() {
 
     // Function to determine the winner based on scores
     fun determineWinner(): String {
-        return when {
-            userScore > dealerScore -> "You Win!"
-            dealerScore > userScore -> "Dealer Wins!"
-            else -> "It's a Tie!"
+
+          //  userScore = userDiceValue1 + userDiceValue2
+          //  dealerScore = dealerDiceValue1 + dealerDiceValue2
+
+        return when{
+
+            userScore > dealerScore -> " You Win!"
+            dealerScore > userScore  -> " Dealer Wins!"
+            else -> " Its a Tie"
         }
+
     }
+
+
+
+
 
     var isUserFirstDiceThrow by remember { mutableStateOf(false) }
     var isUserSecondDiceThrow by remember { mutableStateOf(false) }
@@ -916,42 +928,12 @@ fun UserDiceThrows() {
     var isDealerFirstDiceThrow by remember { mutableStateOf(false) }
     var isDealerSecondDiceThrow by remember { mutableStateOf(false) }
 
+    fun isGameFinished(): Boolean{
 
-    // Function to handle user's dice throws//End of NCode!
-    /*val onUserDiceThrown: () -> Unit = {
-        if (!isScoreFinal) {
-            if(!isUserFirstDiceThrow) {
-                userDiceValue1 = (1..6).random()
-                    isUserFirstDiceThrow = true
+        return isUserFirstDiceThrow && isUserSecondDiceThrow && isDealerSecondDiceThrow && isDealerFirstDiceThrow
 
-            }
-                CoroutineScope(Dispatchers.Default).launch {
+    }
 
-                delay(5000)
-                if (!isUserSecondDiceThrow) {
-                    userDiceValue2 = (1..6).random()
-                    isUserSecondDiceThrow = true
-                    userScore = userDiceValue1 + userDiceValue2
-
-                }
-            }
-            // Set the flag to indicate the score is final after calculating it
-            isScoreFinal = true
-
-            // Simulate dealer's dice throws
-            val random = Random.Default
-            if(!isDealerFirstDiceThrow) {
-                dealerDiceValue1 = random.nextInt(1, 7)
-                isDealerFirstDiceThrow = true
-
-            }
-            if(!isDealerSecondDiceThrow) {
-                dealerDiceValue2 = random.nextInt(1, 7)
-                dealerScore = dealerDiceValue1 + dealerDiceValue2
-            }
-            isDealerScoreFinal = true
-        }
-    }*/
     //Function that we put inside ' DiceThrowOnMovement(-p-) ' to use the Accelerometer
     val onUserDiceThrown: () -> Unit = {
 
@@ -1048,6 +1030,7 @@ fun UserDiceThrows() {
                 } else if (isUserFirstDiceThrow) {
                     ImageForDice(value = userDiceValue1)// Image is updated to reflect value of throw
 
+                    alternator2 = true
                     // A Time delay to avoid two actions on UI Simultaneously
                     GlobalScope.launch {
                         delay(1000) // Delay for 1 second
@@ -1068,9 +1051,10 @@ fun UserDiceThrows() {
         }//End of Column 01
 
         // Space between user's and dealer's dice
-        Spacer(modifier = Modifier.height(24.dp)
-                            .fillMaxWidth()
-                            .background(Color.White))
+        Spacer(modifier = Modifier
+            .height(24.dp)
+            .fillMaxWidth()
+            .background(Color.White))
 
         // Column 02 :
         // Column for Dealer's Dice Display
@@ -1126,38 +1110,86 @@ fun UserDiceThrows() {
                 //  if (!isDealersTurn) {
                 // Text("Roll Die Please!", fontSize = 24.sp)
                 //  }
-                if (!isDealersTurn) {
+                if (alternator) {
                     Text("Roll Die Please!", fontSize = 24.sp,)
+                    alternator = false
+                  //  alternator2 = true
                 } else {
                     // Column TX
                     Column{
 
-                        Text(" Your Score $userScore",
-                            fontSize = 24.sp, )
 
-                        Text(" Dealer's $dealerScore",
-                                    fontSize = 24.sp )
+
+                        if(isGameFinished()){
+
+                            Text(" Your Score $userScore",
+                                fontSize = 24.sp, )
+
+                            Text(" Dealer's $dealerScore",
+                                fontSize = 24.sp )
+                            val winner = determineWinner()
+                            Text(" $winner")
+                            if(winner == " You Win!"){
+                                SoundPlayer021(9)
+                            }else if(winner == " Dealer Wins!"){
+                                SoundPlayer021(7)
+                            }else if(winner == " Its a Tie" ) {
+                                SoundPlayer021(8)
+                            }
+                            }
+                            Button(onClick = {
+
+                                navController.navigate(" WelcomeScreen ")
+                                alternator2 = false
+                                alpha = true
+
+                            },
+                                modifier = Modifier.padding(16.dp)
+
+
+                            )    {Text(" ReplayX")
+
+                            }// End of Button Content
+
+                            Button(
+                                onClick = {
+                                    val intent = Intent( context,MainActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                                    context.startActivity(intent)
+                                }
+                            ) {
+                                Text("Replay")
+                            }
+                        }
+
+
                     }// End of Column TX
 
                  }//End of else statement
-                if(isDealersTurn){
+                if(alternator2){
+
 
                     Button(onClick = {
 
                         onDealerDiceThrown()
+                        alternator2 = false
                         alpha = true
 
                     },
                        modifier = Modifier.padding(16.dp)
-                    )    {Text(" Let Dealer Throw!")
+
+
+                    )    {Text(" LetDealerThrow")
 
                     }// End of Button Content
                 }//End of if statement
-
+                if(isDealerSecondDiceThrow){
+                    alternator2 = false
+                }
             }// End of  Column 03 For Text Display
 
     }// End of Maim Column
-}//End of Method
+//End of Metho
 
 //Composable to Detect Movement From Auxillary Project. ( almost exact same as existing Composable to detect movement
 @Composable
@@ -1215,5 +1247,41 @@ fun DiceThrowOnMovement(onDiceThrown: () -> Unit) {
             }
         }
         lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
+    }
+}
+
+@Composable
+fun SoundPlayer021(diceValue: Int) {
+    val context = LocalContext.current
+
+    fun playSound(soundId: Int) {
+        val mediaPlayer = MediaPlayer.create(context, soundId)
+        mediaPlayer.start()
+        mediaPlayer.setOnCompletionListener { mp ->
+            mp.release()
+        }
+
+    }
+
+    fun playSoundForDiceThrow(diceValue: Int) {
+        val soundId = when (diceValue) {
+            1 -> R.raw.onea // Replace with your sound file for dice value 1
+            2 -> R.raw.twoa // Replace with your sound file for dice value 2
+            3 -> R.raw.threea // Replace with your sound file for dice value 3
+            4 -> R.raw.foura // Replace with your sound file for dice value 4
+            5 -> R.raw.fivea // Replace with your sound file for dice value 5
+            6 -> R.raw.six // Replace with your sound file for dice value 6
+            7 -> R.raw.the_dealer // Replace with your sound file for dice value
+            8 -> R.raw.tie // Replace with your sound file for dice value 6
+            9 -> R.raw.you_won // Replace with your sound file for dice value 6
+
+
+
+            // Default sound if diceValue doesn't match
+            else -> {      }
+        }
+        if (soundId != null) {
+            playSound(diceValue)
+        }
     }
 }
