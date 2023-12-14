@@ -874,7 +874,7 @@ fun WelcomeScreen(
 //Composable added from auxillary(Nov02) Test Project
 @Composable
 fun UserDiceThrows() {
-
+      //SoundPlayer01()
           var context = LocalContext.current
 
     val navController : NavHostController = rememberNavController()
@@ -1038,8 +1038,14 @@ fun UserDiceThrows() {
                         // Boolean to Control dealer's Throw is set to 'true'
                         isDealersTurn = true
                     }
+
+
                     //User must wait until alpha is set to 'true'( happens after dealers first throw)
                     if (isUserSecondDiceThrow && alpha) {
+
+                     //   SoundPlayer022(R.raw.rool_dice)
+
+
                         ImageForDice(value = userDiceValue2)
                         beta = true
                     }
@@ -1086,6 +1092,7 @@ fun UserDiceThrows() {
                     //  ImageForDice(value = dealerDiceValue2)
                 } else {
                     ImageForDice(value = dealerDiceValue1)
+
                 }
                 if (isDealerSecondDiceThrow && beta) {
 
@@ -1112,6 +1119,7 @@ fun UserDiceThrows() {
                 //  }
                 if (alternator) {
                     Text("Roll Die Please!", fontSize = 24.sp,)
+                    SoundPlayer022(R.raw.shake_phone)
                     alternator = false
                   //  alternator2 = true
                 } else {
@@ -1120,7 +1128,10 @@ fun UserDiceThrows() {
 
 
 
+
                         if(isGameFinished()){
+
+
 
                             Text(" Your Score $userScore",
                                 fontSize = 24.sp, )
@@ -1129,15 +1140,17 @@ fun UserDiceThrows() {
                                 fontSize = 24.sp )
                             val winner = determineWinner()
                             Text(" $winner")
+
                             if(winner == " You Win!"){
-                                SoundPlayer021(9)
+                                SoundPlayer022(R.raw.you_won)
                             }else if(winner == " Dealer Wins!"){
-                                SoundPlayer021(7)
+                                SoundPlayer022(R.raw.the_dealer)
                             }else if(winner == " Its a Tie" ) {
-                                SoundPlayer021(8)
+                                SoundPlayer022(R.raw.tie)
+
                             }
                             }
-                            Button(onClick = {
+                         /*   Button(onClick = {
 
                                 navController.navigate(" WelcomeScreen ")
                                 alternator2 = false
@@ -1149,7 +1162,7 @@ fun UserDiceThrows() {
 
                             )    {Text(" ReplayX")
 
-                            }// End of Button Content
+                            }*/// End of Button Content
 
                             Button(
                                 onClick = {
@@ -1168,12 +1181,14 @@ fun UserDiceThrows() {
                  }//End of else statement
                 if(alternator2){
 
+                    SoundPlayer022(R.raw.dealer_and_playergit diff)
 
                     Button(onClick = {
 
                         onDealerDiceThrown()
                         alternator2 = false
                         alpha = true
+
 
                     },
                        modifier = Modifier.padding(16.dp)
@@ -1182,11 +1197,16 @@ fun UserDiceThrows() {
                     )    {Text(" LetDealerThrow")
 
                     }// End of Button Content
+
+
+
                 }//End of if statement
                 if(isDealerSecondDiceThrow){
                     alternator2 = false
                 }
-            }// End of  Column 03 For Text Display
+
+
+    }// End of  Column 03 For Text Display
 
     }// End of Maim Column
 //End of Metho
@@ -1217,7 +1237,7 @@ fun DiceThrowOnMovement(onDiceThrown: () -> Unit) {
                     val acceleration = sqrt(x * x + y * y + z * z)
 
                     // Set a threshold value for movement detection
-                    val threshold = 10 // Adjust this threshold as needed
+                    val threshold = 16 // Adjust this threshold as needed
 
                     if (acceleration > threshold) {
                         // Movement detected, trigger the action (simulate dice throw)
@@ -1250,38 +1270,21 @@ fun DiceThrowOnMovement(onDiceThrown: () -> Unit) {
     }
 }
 
+
+
 @Composable
-fun SoundPlayer021(diceValue: Int) {
+fun SoundPlayer022(soundId: Int) {
     val context = LocalContext.current
 
-    fun playSound(soundId: Int) {
+    DisposableEffect(Unit) {
         val mediaPlayer = MediaPlayer.create(context, soundId)
-        mediaPlayer.start()
-        mediaPlayer.setOnCompletionListener { mp ->
-            mp.release()
+        mediaPlayer.setOnPreparedListener {
+            mediaPlayer.start()
         }
 
-    }
-
-    fun playSoundForDiceThrow(diceValue: Int) {
-        val soundId = when (diceValue) {
-            1 -> R.raw.onea // Replace with your sound file for dice value 1
-            2 -> R.raw.twoa // Replace with your sound file for dice value 2
-            3 -> R.raw.threea // Replace with your sound file for dice value 3
-            4 -> R.raw.foura // Replace with your sound file for dice value 4
-            5 -> R.raw.fivea // Replace with your sound file for dice value 5
-            6 -> R.raw.six // Replace with your sound file for dice value 6
-            7 -> R.raw.the_dealer // Replace with your sound file for dice value
-            8 -> R.raw.tie // Replace with your sound file for dice value 6
-            9 -> R.raw.you_won // Replace with your sound file for dice value 6
-
-
-
-            // Default sound if diceValue doesn't match
-            else -> {      }
-        }
-        if (soundId != null) {
-            playSound(diceValue)
+        onDispose {
+            mediaPlayer.release()
         }
     }
 }
+
